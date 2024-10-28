@@ -1,0 +1,80 @@
+import { Button, Navbar, Avatar, Dropdown} from "flowbite-react";
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { RxDashboard } from "react-icons/rx";
+import { MdOutlineInventory } from "react-icons/md";
+import { AiFillNotification } from "react-icons/ai";
+import { HiArrowSmRight, HiUser } from "react-icons/hi";
+
+
+export default function Header() {
+  const path = useLocation().pathname;
+  
+  return (
+    <div>
+      <Navbar className="border-b-2">
+        <div>
+          <Link to={'/'}>
+            <span>Logo Here</span>
+          </Link>
+        </div>
+        <div className="flex gap-2 md:order-2">
+          <Dropdown
+            arrowIcon={false}
+            inline
+            label={
+              <Avatar alt="user" rounded/>
+            }
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">@FALabyow</span>
+              <span className="block text-sm font-medium truncate">ruhaynaadje08@gmail.com</span>
+            </Dropdown.Header>
+            <Link to={'/dashboard?tab=overview'}>
+              <Dropdown.Item icon={RxDashboard}>
+                Dashboard
+              </Dropdown.Item>
+            </Link>
+            <Link to={'/dashboard?tab=tag-info'}>
+              <Dropdown.Item icon={MdOutlineInventory}>
+                UID
+              </Dropdown.Item>
+            </Link>
+            <Link to={'/dashboard?tab=notification'}>
+              <Dropdown.Item icon={AiFillNotification}>
+                Notification
+              </Dropdown.Item>
+            </Link>
+            <Link to={'/dashboard?tab=profile'}>
+              <Dropdown.Item icon={HiUser}>
+                Profile
+              </Dropdown.Item>
+            </Link>
+            <Dropdown.Divider/>
+            <Dropdown.Item icon={HiArrowSmRight}>
+              Sign Out
+            </Dropdown.Item>
+          </Dropdown>
+          <Navbar.Toggle/>
+        </div>
+        <Navbar.Collapse>
+          <Navbar.Link active={path === '/'} as={'div'} >
+            <Link to='/'>
+              Home
+            </Link>
+          </Navbar.Link>
+          <Navbar.Link as={'div'} active={path === '/about'}>
+            <Link to='/about'>
+              About
+            </Link>
+          </Navbar.Link>
+          <Navbar.Link as={'div'} active={path === '/feedback'}>
+            <Link to='/feedback'>
+              Feedback
+            </Link>
+          </Navbar.Link>
+        </Navbar.Collapse>
+      </Navbar>
+    </div>
+  );
+}
