@@ -5,10 +5,12 @@ import { RxDashboard } from "react-icons/rx";
 import { MdOutlineInventory } from "react-icons/md";
 import { AiFillNotification } from "react-icons/ai";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { useSelector } from 'react-redux';
 
 
 export default function Header() {
   const path = useLocation().pathname;
+  const {currentUser} = useSelector((state) => state.user);
   
   return (
     <div>
@@ -19,7 +21,8 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex gap-2 md:order-2">
-          <Dropdown
+          {currentUser ? (
+            <Dropdown
             arrowIcon={false}
             inline
             label={
@@ -27,8 +30,8 @@ export default function Header() {
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">@FALabyow</span>
-              <span className="block text-sm font-medium truncate">ruhaynaadje08@gmail.com</span>
+              <span className="block text-sm">@{currentUser.username}</span>
+              <span className="block text-sm font-medium truncate">{currentUser.email}</span>
             </Dropdown.Header>
             <Link to={'/dashboard?tab=overview'}>
               <Dropdown.Item icon={RxDashboard}>
@@ -54,7 +57,15 @@ export default function Header() {
             <Dropdown.Item icon={HiArrowSmRight}>
               Sign Out
             </Dropdown.Item>
-          </Dropdown>
+            </Dropdown>
+          ) : (
+            <Link to='/sign-in'>
+              <Button gradientDuoTone='purpleToBlue' outline>
+                Sign In
+              </Button>
+            </Link>
+          )}
+          
           <Navbar.Toggle/>
         </div>
         <Navbar.Collapse>
