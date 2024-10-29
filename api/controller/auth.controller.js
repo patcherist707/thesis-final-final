@@ -45,7 +45,6 @@ export const signup = async(req, res, next) => {
 
     await userDataRef.set(newUserData);
     const newUserId = userDataRef.id;
-    console.log(newUserId);
     res
     .status(200)
     .json({message: "User created successfully"});

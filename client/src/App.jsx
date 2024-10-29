@@ -6,6 +6,7 @@ import Feedback from "./pages/Feedback";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Header from "./components/Header";
+import FooterCom from "./components/FooterCom";
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn/>}/>
         <Route path="/sign-up" element={<SignUp/>}/>
       </Routes>
+      <FooterCom/>
     </BrowserRouter>
   )
 }
