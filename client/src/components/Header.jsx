@@ -6,11 +6,28 @@ import { MdOutlineInventory } from "react-icons/md";
 import { AiFillNotification } from "react-icons/ai";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
 import { useSelector } from 'react-redux';
-
+import { signoutSuccess } from '../redux/user/userSlice.js';
+import { useDispatch } from 'react-redux';
 
 export default function Header() {
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
   const {currentUser} = useSelector((state) => state.user);
+  const handleSignout = async () => {
+    try {
+      const res = await fetch('/api/signout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   
   return (
     <div>
@@ -54,7 +71,8 @@ export default function Header() {
               </Dropdown.Item>
             </Link>
             <Dropdown.Divider/>
-            <Dropdown.Item icon={HiArrowSmRight}>
+            <Dropdown.Item icon={HiArrowSmRight} className='cursor-pointer'
+            onClick={handleSignout}>
               Sign Out
             </Dropdown.Item>
             </Dropdown>
