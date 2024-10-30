@@ -106,10 +106,13 @@ export default function DashProfile() {
   console.log(imageFileUrl);
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
+      {/* Update profile header */}
       <h1 className='my-7 text-center font-semibold text-3xl'>
         Profile
       </h1>
+      {/* Profile overview */}
       <div className='flex flex-col gap-4'>
+        {/* Image Upload */}
         <form className='flex flex-col gap-4'>
           <input
             type='file'
@@ -152,6 +155,8 @@ export default function DashProfile() {
           />
           </div>
         </form>
+        {/* User information */}
+        <div>
         <Accordion collapseAll>
           <Accordion.Panel>
             <Accordion.Title>Username</Accordion.Title>
@@ -175,8 +180,9 @@ export default function DashProfile() {
         <Button gradientDuoTone={'purpleToBlue'} onClick={() => {setFirstShowModal(true); setError(null)}}outline>
           Update Profile
         </Button>
+        </div>
       </div>
-
+      {/* This is a modal for user authentication */}
       <Modal
         show={firstShowModal}
         onClose={() => setFirstShowModal(false)}
@@ -202,6 +208,7 @@ export default function DashProfile() {
         </form>
         
       </Modal>
+      {/* This is modal for updating profile */}
       <Modal
         show={secondShowModal}
         onClose={() => setSecondShowModal(false)}
@@ -240,7 +247,6 @@ export default function DashProfile() {
           </div>
         </form>
       </Modal>
-
     </div>
   );
 }

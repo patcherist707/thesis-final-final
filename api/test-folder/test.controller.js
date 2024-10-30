@@ -21,6 +21,8 @@ export const testDatabase = async(req, res) => {
 }
 
 export const test = async(req, res) => {
+  const token = req.cookies.access_token;
+  console.log(token);
   res
   .json({
     message: "This is a test code"

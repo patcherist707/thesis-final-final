@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import testRoutes from "./test-folder/test.route.js";
-import userRoutes from "./routes/auth.route.js";
+import authRoutes from "./routes/auth.route.js";
+import userRoutes from "./routes/user.route.js";
 import {createServer} from 'node:http';
 import cookieParser from 'cookie-parser';
 
@@ -13,6 +14,7 @@ const httpServer = createServer(app);
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', testRoutes);
+app.use('/api', authRoutes);
 app.use('/api', userRoutes);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
