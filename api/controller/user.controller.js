@@ -72,4 +72,20 @@ export const updateuser = async(req, res, next) => {
   } catch (error) {
     next(error);
   }
-} 
+}
+
+export const deleteuser = async(req, res, next) => {
+  if(req.user.id !== req.params.userId){
+    console.log(req.user.id);
+    console.log(req.params.userId)
+    return next(errorHandler(403, "You are not allowed to delete this user"));
+  }
+
+  try {
+    const userId = req.params.userId;
+    await firestore.collection("users").doc(userId).delete();
+    res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+}

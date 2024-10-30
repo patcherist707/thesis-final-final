@@ -13,6 +13,7 @@ export const tokenVerification = (req, res, next) => {
     }
 
     req.user = user;
+    console.log(req.user);
     next();
   });
 }
