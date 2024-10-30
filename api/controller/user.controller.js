@@ -5,6 +5,8 @@ import admin from "firebase-admin";
 
 export const updateuser = async(req, res, next) => {
   if(req.user.id !== req.params.userId){
+    console.log(req.user.id);
+    console.log(req.params.userId);
     return next(errorHandler(403, "You are not allowed to modify this user"));
   }
 
@@ -51,7 +53,8 @@ export const updateuser = async(req, res, next) => {
       ...(req.body.profilePicture && { profilePicture: req.body.profilePicture }),
       ...(req.body.mobileNumber && { mobileNumber: req.body.mobileNumber }),
       ...(req.body.password && { password: req.body.password }),
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(), 
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      _id: userId 
     }
 
     await userRef.update(updatedData);
