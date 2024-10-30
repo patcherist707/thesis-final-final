@@ -1,0 +1,246 @@
+import { Button, TextInput, Accordion, Modal, Alert } from 'flowbite-react';
+import { useSelector } from 'react-redux';
+import {useEffect, useState, useRef} from "react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { app } from '../firebase';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+export default function DashProfile() {
+  const { currentUser } = useSelector((state) => state.user);
+  const [firstShowModal, setFirstShowModal] = useState(false);
+  const [secondShowModal, setSecondShowModal] = useState(false);
+  const [getOldPassword, setGetOldPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
+  const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const filePickerRef = useRef();
+
+  const handleOldPassword = (e) => {
+    setGetOldPassword({password: e.target.value, email: currentUser.email});
+  }
+
+  const handleAuthenticatedPassword = async(e) => {
+    e.preventDefault();
+    setError(null);
+    if(!getOldPassword || getOldPassword === ''){
+      return setError('Password is required');
+    }
+    try {
+      setError(null)
+      setSuccess(null);
+      const res = await fetch('/api/user/authUser', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(getOldPassword),
+      });
+
+      const data = await res.json();
+      
+      if(data.success === false){
+        console.log(data)
+        return setError(data.message);
+      }
+
+      if(res.ok){
+        setFirstShowModal(false);
+        setSecondShowModal(true);
+        setError(null);
+      }
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImageFileUrl(URL.createObjectURL(file));
+    }
+  };
+
+  useEffect(() => {
+    if (imageFile) {
+      uploadImage();
+    }
+  }, [imageFile]);
+
+  const uploadImage = async () => {
+    setImageFileUploadError(null);
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + imageFile.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageFileUploadProgress(progress.toFixed(0));
+      },
+      (error) => {
+        setImageFileUploadError(
+          'Could not upload image (File must be less than 2MB)'
+        );
+        setImageFileUploadProgress(null);
+        setImageFile(null);
+        setImageFileUrl(null);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImageFileUrl(downloadURL);
+        });
+      }
+    );
+  };
+
+  console.log(imageFileUrl);
+  return (
+    <div className='max-w-lg mx-auto p-3 w-full'>
+      <h1 className='my-7 text-center font-semibold text-3xl'>
+        Profile
+      </h1>
+      <div className='flex flex-col gap-4'>
+        <form className='flex flex-col gap-4'>
+          <input
+            type='file'
+            accept='image/*'
+            onChange={handleImageChange}
+            ref={filePickerRef}
+            hidden
+          />
+          <div className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
+          onClick={() => filePickerRef.current.click()}>
+            {imageFileUploadProgress && (
+            <CircularProgressbar
+              value={imageFileUploadProgress || 0}
+              text={`${imageFileUploadProgress}%`}
+              strokeWidth={5}
+              styles={{
+                root: {
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                },
+                path: {
+                  stroke: `rgba(62, 152, 199, ${
+                    imageFileUploadProgress / 100
+                  })`,
+                },
+              }}
+            />
+          )}
+          <img
+            src={imageFileUrl || currentUser.profilePicture}
+            alt='user'
+            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
+              imageFileUploadProgress &&
+              imageFileUploadProgress < 100 &&
+              'opacity-60'
+            }`}
+          />
+          </div>
+        </form>
+        <Accordion collapseAll>
+          <Accordion.Panel>
+            <Accordion.Title>Username</Accordion.Title>
+            <Accordion.Content>
+              <span>{currentUser.username}</span>
+            </Accordion.Content>
+          </Accordion.Panel>
+          <Accordion.Panel>
+            <Accordion.Title>Email</Accordion.Title>
+            <Accordion.Content>
+              <span>{currentUser.email}</span>
+            </Accordion.Content>
+          </Accordion.Panel>
+          <Accordion.Panel>
+            <Accordion.Title>Mobile Number</Accordion.Title>
+            <Accordion.Content>
+              <span>{currentUser.mobileNumber}</span>
+            </Accordion.Content>
+          </Accordion.Panel>
+        </Accordion>
+        <Button gradientDuoTone={'purpleToBlue'} onClick={() => {setFirstShowModal(true); setError(null)}}outline>
+          Update Profile
+        </Button>
+      </div>
+
+      <Modal
+        show={firstShowModal}
+        onClose={() => setFirstShowModal(false)}
+        popup
+        size={'sm'}
+      >
+        <Modal.Header>
+          Enter Password
+        </Modal.Header>
+        <form className='flex flex-col gap-2 w-80 mx-auto m-3' onSubmit={handleAuthenticatedPassword}>
+          <TextInput placeholder='Password' type='password'  id='password' className='w-80' onChange={handleOldPassword}/>
+          <div className='flex mx-auto gap-3'>
+            <Button className='w-30' type='submit' color='green'>Submit</Button>
+            <Button className='w-30' color='red' onClick={() => setFirstShowModal(false)}>Cancel</Button>
+          </div>
+          <span>
+            {error && (
+              <Alert color={'failure'} className="mt-5">
+                {error}
+              </Alert>
+            )}
+          </span>
+        </form>
+        
+      </Modal>
+      <Modal
+        show={secondShowModal}
+        onClose={() => setSecondShowModal(false)}
+        popup
+        size={'lg'}
+      >
+        <Modal.Header>
+          Update Profile
+        </Modal.Header>
+        <form className='flex flex-col gap-2 w-80 mx-auto m-5'>
+          <TextInput
+            type="text"
+            id="username"
+            placeholder="Username"
+            defaultValue={currentUser.username}
+          />
+          <TextInput
+            type="email"
+            id="email"
+            placeholder="Email"
+            defaultValue={currentUser.email}
+          />
+          <TextInput
+            type="password"
+            id="password"
+            placeholder="Enter New Password"
+          />
+          <TextInput
+            type="text"
+            id="mobileNumber"
+            placeholder="Add Mobile Number"
+          />
+          <div className='flex mx-auto gap-24'>
+            <Button className='w-30' type='submit' color='green'>Update</Button>
+            <Button className='w-30' color='red' onClick={() => setSecondShowModal(false)}>Cancel</Button>
+          </div>
+        </form>
+      </Modal>
+
+    </div>
+  );
+}

@@ -42,8 +42,10 @@ export const signup = async(req, res, next) => {
       username,
       email,
       password: hashedPassword,
+      profilePicture: 'https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      mobileNumber: "none",
     };
 
     await userDataRef.set(newUserData);
@@ -99,7 +101,6 @@ export const signin  = async(req, res, next) => {
     userData.createdAt = createdAt; 
     userData.updatedAt = updatedAt;
     userData._id = userDoc.id;
-    // console.log(userData);
     
     res
       .status(200)
@@ -111,6 +112,32 @@ export const signin  = async(req, res, next) => {
   } catch (error) {
     next(error);
   }
+}
 
+export const authUser = async(req, res, next) => {
+  const {password, email} = req.body;
+  if(!password || password === ""){
+    return next(errorHandler(400, "Password is required!"));
+  };
+
+  try {
+    const userEmailSnapshot = await firestore.collection('users').where('email', '==', email).get();
+    if(userEmailSnapshot.empty){
+      return next(errorHandler(404, "Data not found"));
+    }
   
+    const userDoc = userEmailSnapshot.docs[0];
+    const validUser = userDoc.data();
+  
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validPassword) {
+      return next(errorHandler(400, 'Invalid password'));
+    }
+    res
+    .status(200)
+    .json({message: "Password confirmed!"});
+
+  } catch (error) {
+    next(error);
+  }
 }
