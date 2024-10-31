@@ -3,14 +3,30 @@ import { List, ListItem, Divider } from '@mui/material';
 import { RiCheckboxCircleFill } from "react-icons/ri";
 import { FaCircleXmark } from "react-icons/fa6";
 import TypingDots from "../TypingDots";
+import { useSelector } from "react-redux";
+import io from 'socket.io-client';
 
 export default function TempHumidSummary() {
-  const [emcValue, setEmcValue] = useState(''); // Initial state for EMC value
-  const [data, setData] = useState({ humidity: 86, temperature: 36 });
+  const [emcValue, setEmcValue] = useState('');
+  const [data, setData] = useState({ humidity: 0, temperature: 0 });
   const [status, setStatus] = useState('');
   const [action, setAction] = useState('');
   const [info, setInfo] = useState('');
+  const {currentUser} = useSelector((state) => state.user);
 
+  useEffect(() => {
+    const uid = currentUser._id;
+    const socket = io('http://localhost:3000');
+    socket.emit('joinRoom', { uid });
+    socket.on('updateTempHumidData', (newData) => {
+      setData(newData);
+    });
+
+    return () => {
+      socket.disconnect();
+    }
+  }, [currentUser]);
+  
   useEffect(() => {
     const calculateEmc = () => {
       if ((data.humidity <= 60 && data.humidity < 65) && (data.temperature >= 22 && data.temperature <= 44)) {

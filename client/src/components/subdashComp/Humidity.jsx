@@ -1,10 +1,27 @@
 import GaugeComponent from 'react-gauge-component'
 import { useEffect, useState} from "react";
+import { useSelector } from 'react-redux';
+import io from 'socket.io-client';
 
 export default function Humidity() {
+  const [data, setData] = useState({humidity:0});
+  const {currentUser} = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const uid = currentUser._id;
+    const socket = io('http://localhost:3000');
+    socket.emit('joinRoom', { uid });
+    socket.on('updateTempHumidData', (newData) => {
+      setData(newData);
+    });
+
+    return () => {
+      socket.disconnect();
+    }
+  }, [currentUser]);
   return (
     <div>
-      <GaugeComponent
+      {/* <GaugeComponent
         style={{width:'300px', margin:'auto'}}
           type="semicircle"
           arc={{
@@ -84,7 +101,10 @@ export default function Humidity() {
           value={40}
           minValue={0}
         maxValue={100} 
-      />
+      /> */}
+      <div className='flex items-center justify-center mt-16'>
+        <span className='text-7xl font-medium text-slate-500'>{data.humidity}%</span>
+      </div>
     </div>
   );
 }
