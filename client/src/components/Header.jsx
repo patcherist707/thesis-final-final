@@ -30,7 +30,7 @@ export default function Header() {
   };
   
   return (
-    <div>
+    <div className="sticky top-0 z-10">
       <Navbar className="border-b-2">
         <div>
           <Link to={'/'}>

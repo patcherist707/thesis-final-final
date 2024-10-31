@@ -40,57 +40,59 @@ export default function DashSidebar() {
   }
   
   return (
-    <Sidebar className='w-full md:w-56'>
-      <Sidebar.Items>
-        <Sidebar.ItemGroup>
-          <Link to={'/dashboard?tab=overview'}>
-            <Sidebar.Item
-              active={tab === 'overview'}
-              icon={RxDashboard}
-              as='div'
-            >
-              Dashboard
+    <>
+      <Sidebar className='w-full md:w-56 '>
+        <Sidebar.Items>
+          <Sidebar.ItemGroup>
+            <Link to={'/dashboard?tab=overview'}>
+              <Sidebar.Item
+                active={tab === 'overview'}
+                icon={RxDashboard}
+                as='div'
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+            <Link to={'/dashboard?tab=tag-info'}>
+              <Sidebar.Item
+                active={tab === 'tag-info'}
+                icon={MdOutlineInventory}
+                as='div'
+              >
+                UID
+              </Sidebar.Item>
+            </Link>
+            <Link to={'/dashboard?tab=notification'}>
+              <Sidebar.Item
+                active={tab === 'notification'}
+                icon={AiFillNotification}
+                as='div'
+              >
+                
+                <div className="flex justify-between">
+                  Notification
+                  <span className='rounded-full bg-red-600 w-6 text-center text-white'></span>
+                </div>
+                
+              </Sidebar.Item>
+            </Link>
+            <Link to={'/dashboard?tab=profile'}>
+              <Sidebar.Item
+                active={tab === 'profile'}
+                icon={HiUser}
+                label={'User'}
+                labelColor = 'dark'
+                as='div'
+              >
+                Profile
+              </Sidebar.Item>
+            </Link>
+            <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer' as='div' onClick={handleSignout}>
+              Sign Out
             </Sidebar.Item>
-          </Link>
-          <Link to={'/dashboard?tab=tag-info'}>
-            <Sidebar.Item
-              active={tab === 'tag-info'}
-              icon={MdOutlineInventory}
-              as='div'
-            >
-              UID
-            </Sidebar.Item>
-          </Link>
-          <Link to={'/dashboard?tab=notification'}>
-            <Sidebar.Item
-              active={tab === 'notification'}
-              icon={AiFillNotification}
-              as='div'
-            >
-              
-              <div className="flex justify-between">
-                Notification
-                <span className='rounded-full bg-red-600 w-6 text-center text-white'></span>
-              </div>
-              
-            </Sidebar.Item>
-          </Link>
-          <Link to={'/dashboard?tab=profile'}>
-            <Sidebar.Item
-              active={tab === 'profile'}
-              icon={HiUser}
-              label={'User'}
-              labelColor = 'dark'
-              as='div'
-            >
-              Profile
-            </Sidebar.Item>
-          </Link>
-          <Sidebar.Item icon={HiArrowSmRight} className='cursor-pointer' as='div' onClick={handleSignout}>
-            Sign Out
-          </Sidebar.Item>
-        </Sidebar.ItemGroup>
-      </Sidebar.Items>
-    </Sidebar>
+          </Sidebar.ItemGroup>
+        </Sidebar.Items>
+      </Sidebar>
+    </>
   );
 }
