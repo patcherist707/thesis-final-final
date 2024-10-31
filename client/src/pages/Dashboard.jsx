@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import DashProfile from "../components/DashProfile";
+import DashComponents from "../components/DashComponents";
+import DashSidebar from "../components/DashSidebar";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -16,7 +18,11 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
+      <div className='md:w-56'>
+        <DashSidebar />
+      </div>
       {tab === 'profile' && <DashProfile/>}
+      {tab === 'overview' && <DashComponents/>}
     </div>
   );
 }
