@@ -4,6 +4,7 @@ import DashProfile from "../components/DashProfile";
 import DashComponents from "../components/DashComponents";
 import DashSidebar from "../components/DashSidebar"
 import TagInformation from "../components/TagInformation";
+import Notifications from "../components/Notifications";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -25,6 +26,8 @@ export default function Dashboard() {
       {tab === 'profile' && <DashProfile/>}
       {tab === 'overview' && <DashComponents/>}
       {tab === 'tag-info' && <TagInformation/>}
+      {tab === 'notification' && <Notifications/>}
+
     </div>
   );
 }
