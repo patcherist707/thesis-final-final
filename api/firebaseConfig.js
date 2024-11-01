@@ -25,3 +25,4 @@ admin.initializeApp({
 });
 
 export const firestore = admin.firestore();
+export const realtime = admin.database();
