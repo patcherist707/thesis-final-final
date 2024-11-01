@@ -28,3 +28,4 @@ export const test = async(req, res) => {
     message: "This is a test code"
   });
 }
+

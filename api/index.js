@@ -7,7 +7,8 @@ import {createServer} from 'node:http';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import {Server} from 'socket.io';
-import setTempHumidDataListener from './data/temp.humid.js';
+import {setTempHumidDataListener, logTempHumidData} from './data/temp.humid.js';
+import cron from "node-cron";
 
 dotenv.config();
 const app = express();
@@ -40,6 +41,10 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+// cron.schedule('* * * * *', () => {
+//   logTempHumidData();
+// });
 
 io.on('connection', (socket) => {
 
