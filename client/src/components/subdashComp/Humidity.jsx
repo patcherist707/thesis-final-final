@@ -19,6 +19,7 @@ export default function Humidity() {
       socket.disconnect();
     }
   }, [currentUser]);
+  
   return (
     <div>
       {/* <GaugeComponent

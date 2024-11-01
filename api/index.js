@@ -43,15 +43,6 @@ app.use((err, req, res, next) => {
 
 io.on('connection', (socket) => {
 
-  // setUpRfidDataTagListener(io);
-  
-  // setMaxCapacityValueListener(io);
-  // setUpRegisteredTagListener(io);
-  // sendUnreadCountToFirebase(io);
-  // testCode(io);
-  // socket.on('fetchAllMessages', () => {
-  //   getMessages(io);
-  // });
   socket.on('joinRoom', ({ uid }) => {
     console.log(`User with UID ${uid} joined.`);
     setTempHumidDataListener(io, uid);
