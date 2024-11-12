@@ -26,3 +26,68 @@ export const setUpRfidDataTagListener  = (io, uid) => {
 
 
 }
+
+export const setUpRegisteredTagListener = async(io, uid) => {
+  try {
+    const dataRef1 = realtime.ref(`/${uid}/registrationForm`);
+    const dataRef2 = realtime.ref(`/${uid}/UIDInformation`);
+    const dataRef3 = realtime.ref(`/${uid}/dateOfLoading`);
+    const dataRef4 = realtime.ref(`/${uid}/dateOfUnLoading`);
+
+    async function handleAllData(regForm, uidInfo, dateOfLoadingObj, dateOfUnLoadingObj) {
+      const obj1 = regForm;
+      const obj2 = uidInfo;
+      const obj3 = dateOfLoadingObj;
+      const obj4 = dateOfUnLoadingObj;
+      let activeCount = 0;
+      let inactiveCount = 0;
+
+      for (const key in obj1) {
+        obj1[key].dateOfLoading = obj3 && obj3[key]?.dateOfLoading || 'N/A';
+        obj1[key].dateOfUnLoading = obj4 && obj4[key]?.dateOfUnLoading || 'N/A';
+        obj1[key].status = obj2 && obj2[key]?.status || obj1[key].status || 'N/A';
+        
+        if(obj1[key].status === 'active' && obj1[key].dateOfLoading != 'N/A'){
+          activeCount++;
+        }
+  
+        if(obj1[key].status === 'Inactive' && obj1[key].dateOfUnLoading != 'N/A'){
+          inactiveCount++;
+        }
+      }
+      io.emit('tagInfoObjUpdate', obj1);
+      io.emit('countUpNew', activeCount);
+      io.emit('countDownNew', inactiveCount);
+    }
+
+    const fetchDataAndListen = async () => {
+      try {
+        const [regFormSnapshot, uidInfoSnapshot, dateOfLoadingSnapshot, dateOfUnLoadingSnapshot] = await Promise.all([
+          dataRef1.once('value'),
+          dataRef2.once('value'),
+          dataRef3.once('value'),
+          dataRef4.once('value')
+        ]);
+
+        const regFormObj = regFormSnapshot.val();
+        const uidInfoObj = uidInfoSnapshot.val();
+        const dateOfLoadingObj = dateOfLoadingSnapshot.val();
+        const dateOfUnLoadingObj = dateOfUnLoadingSnapshot.val();
+
+        await handleAllData(regFormObj, uidInfoObj, dateOfLoadingObj, dateOfUnLoadingObj);
+      } catch (error) {
+        console.error('Error fetching data:', error.message);
+      }
+    };
+
+    await fetchDataAndListen();
+    
+    dataRef1.on('value', fetchDataAndListen);
+    dataRef2.on('value', fetchDataAndListen);
+    dataRef3.on('value', fetchDataAndListen);
+    dataRef4.on('value', fetchDataAndListen);
+    
+  } catch (error) {
+    console.error('Error in setUpRegisteredTagListener:', error.message);
+  }
+}
