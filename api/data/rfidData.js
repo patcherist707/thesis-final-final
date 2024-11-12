@@ -1,4 +1,4 @@
-import {realtime} from "../firebaseConfig.js";
+import {realtime, firestore} from "../firebaseConfig.js";
 
 export const setUpRfidDataTagListener  = (io, uid) => {
   const dataRef = realtime.ref(`/${uid}/UIDInformation`);
