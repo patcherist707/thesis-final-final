@@ -5,8 +5,8 @@ import admin from "firebase-admin";
 
 export const updateuser = async(req, res, next) => {
   if(req.user.id !== req.params.userId){
-    console.log(req.user.id);
-    console.log(req.params.userId);
+    // console.log(req.user.id);
+    // console.log(req.params.userId);
     return next(errorHandler(403, "You are not allowed to modify this user"));
   }
 
@@ -76,8 +76,8 @@ export const updateuser = async(req, res, next) => {
 
 export const deleteuser = async(req, res, next) => {
   if(req.user.id !== req.params.userId){
-    console.log(req.user.id);
-    console.log(req.params.userId)
+    // console.log(req.user.id);
+    // console.log(req.params.userId)
     return next(errorHandler(403, "You are not allowed to delete this user"));
   }
 

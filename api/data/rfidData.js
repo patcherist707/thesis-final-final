@@ -91,3 +91,18 @@ export const setUpRegisteredTagListener = async(io, uid) => {
     console.error('Error in setUpRegisteredTagListener:', error.message);
   }
 }
+
+export const setMaxCapacityValueListener = (io, uid) => {
+  const docRef = firestore.collection('Capacity').doc(`${uid}`);
+
+  docRef.onSnapshot((doc) => {
+    if (doc.exists) {
+      const capacityVal = doc.data();
+      io.emit('updateCapacityValue', capacityVal);
+    } else {
+      console.log('No such document!');
+    }
+  }, (error) => {
+    console.error('Error fetching document:', error);
+  });
+}

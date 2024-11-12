@@ -9,7 +9,8 @@ import cors from 'cors';
 import {Server} from 'socket.io';
 import {setTempHumidDataListener, logTempHumidData} from './data/temp.humid.js';
 import cron from "node-cron";
-import { setUpRegisteredTagListener, setUpRfidDataTagListener } from "./data/rfidData.js";
+import { setMaxCapacityValueListener, setUpRegisteredTagListener, setUpRfidDataTagListener } from "./data/rfidData.js";
+import maxValueCapacityRoutes from './routes/data.route.js';
 
 dotenv.config();
 const app = express();
@@ -30,6 +31,7 @@ const io = new Server(httpServer, {
 app.use('/api', testRoutes);
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
+app.use('/api', maxValueCapacityRoutes);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";
@@ -55,6 +57,7 @@ io.on('connection', (socket) => {
     setTempHumidDataListener(io, uid);
     setUpRfidDataTagListener(io, uid);
     setUpRegisteredTagListener(io, uid);
+    setMaxCapacityValueListener(io, uid);
   });
   
   socket.on('disconnect', () => {

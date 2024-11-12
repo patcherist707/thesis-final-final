@@ -8,15 +8,18 @@ import { Alert} from 'flowbite-react';
 import { Modal, TextInput, Button } from 'flowbite-react';
 import { FaRegEdit } from "react-icons/fa";
 import TypingDots from "../TypingDots";
+import { useSelector } from "react-redux";
+import io from 'socket.io-client';
 
 export default function StocksSummary() {
+  const { currentUser, err } = useSelector((state) => state.user);
   const [iconSize, setIconSize] = useState(18);
   const [countUp, setCountUp] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [maxCapacity, setMaxCapacity] = useState({});
+  const [maxCapacity, setMaxCapacity] = useState({maxCap: 0});
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [data, setData] = useState({percentage:0.00, maxCapacityValue: 1000, countUp: 0});
+  const [data, setData] = useState({});
   const [status, setStatus] = useState('');
   const [action, setAction] = useState('');
 
@@ -58,31 +61,31 @@ export default function StocksSummary() {
     return () => clearTimeout(timeoutId);
   }, [data.percentage]);
 
-  // useEffect(() => {
-  //   const socket = io('http://localhost:4000');
-  //   socket.on('updateCapacityValue', (newData) => {
-  //     setData(newData);
-  //   });
+  useEffect(() => {
+    const socket = io('http://localhost:3000');
+    socket.on('updateCapacityValue', (newData) => {
+      setData(newData);
+    });
 
-  //   return () => {
-  //     socket.disconnect();
-  //   }
-  // }, []);
+    return () => {
+      socket.disconnect();
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   const socket = io('http://localhost:4000');
+  useEffect(() => {
+    const socket = io('http://localhost:3000');
 
-  //   socket.on('countUpNew', (newData) => {
-  //     setCountUp(newData);
-  //   });
-  //   return () => {
-  //     socket.disconnect();
-  //   };
+    socket.on('countUpNew', (newData) => {
+      setCountUp(newData);
+    });
+    return () => {
+      socket.disconnect();
+    };
 
-  // }, []);
+  }, []);
 
   const handleChange = (e) => {
-    setMaxCapacity({ maxCapacityValue: 1000, countUp:0 });
+    setMaxCapacity({ maxCapacityValue: e.target.value, countUp});
   };
 
   const handleSubmit = async (e) => {
@@ -98,7 +101,7 @@ export default function StocksSummary() {
 
     try {
       setErrorMessage(null);
-      const res = await fetch('/api/data/capacity', {
+      const res = await fetch(`/api/capacity/${currentUser._id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(maxCapacity),
