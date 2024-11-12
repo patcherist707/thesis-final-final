@@ -9,6 +9,7 @@ import cors from 'cors';
 import {Server} from 'socket.io';
 import {setTempHumidDataListener, logTempHumidData} from './data/temp.humid.js';
 import cron from "node-cron";
+import { setUpRfidDataTagListener } from "./data/rfidData.js";
 
 dotenv.config();
 const app = express();
@@ -52,6 +53,7 @@ io.on('connection', (socket) => {
     // console.log(`User with UID ${uid} joined.`);
     console.log('Client Connected!');
     setTempHumidDataListener(io, uid);
+    setUpRfidDataTagListener(io, uid);
   });
   
   socket.on('disconnect', () => {
