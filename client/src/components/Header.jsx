@@ -33,8 +33,13 @@ export default function Header() {
     <div className="sticky top-0 z-10">
       <Navbar className="border-b-2">
         <div>
-          <Link to={'/'}>
-            <span>Logo Here</span>
+          <Link to={'/'} className="flex flex-row mr-0 pr-0">
+            <img className="h-15 w-20 pt-0" src="/logo1.png"/>
+            <div className="flex flex-col">
+              <span className="block text-[14px] font-medium truncate mb-[-5px] mt-[5px]">Warehouse</span>
+              <span className="block text-[14px] font-medium truncate mb-[-5px]">Management</span>
+              <span className="block text-[14px] font-medium truncate">System</span>
+            </div>
           </Link>
         </div>
         <div className="flex gap-2 md:order-2">

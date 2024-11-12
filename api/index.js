@@ -49,7 +49,8 @@ app.use((err, req, res, next) => {
 io.on('connection', (socket) => {
 
   socket.on('joinRoom', ({ uid }) => {
-    console.log(`User with UID ${uid} joined.`);
+    // console.log(`User with UID ${uid} joined.`);
+    console.log('Client Connected!');
     setTempHumidDataListener(io, uid);
   });
   

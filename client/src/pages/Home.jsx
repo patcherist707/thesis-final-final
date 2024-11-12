@@ -2,8 +2,6 @@ import React from "react";
 
 export default function Home() {
   return (
-    <div>
-      Home
-    </div>
+    <img src="/Home.png"className="object-contain" />
   );
 }
