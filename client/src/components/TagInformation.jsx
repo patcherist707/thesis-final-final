@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Button, Modal, TextInput, Alert, Pagination } from 'flowbite-react';
-// import { io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 
@@ -28,15 +28,15 @@ export default function TagInfo() {
 
   const onPageChange = (page) => setCurrentPage(page);
 
-  // React.useEffect(() => {
-  //   const socket = io('http://localhost:4000');
-  //   socket.on('tagInfoObjUpdate', (newData) => {
-  //     setData(newData);
-  //   });
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    const socket = io('http://localhost:3000');
+    socket.on('tagInfoObjUpdate', (newData) => {
+      setData(newData);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   React.useEffect(() => {
     const timerId = setInterval(() => {
@@ -46,15 +46,15 @@ export default function TagInfo() {
     return () => clearInterval(timerId); // Clean up the interval on component unmount
   }, []);
 
-  // React.useEffect(() => {
-  //   const socket = io('http://localhost:4000');
-  //   socket.on('registeredTagUpdate', (newData) => {
-  //     setDataNew(newData);
-  //   });
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+  React.useEffect(() => {
+    const socket = io('http://localhost:3000');
+    socket.on('registeredTagUpdate', (newData) => {
+      setDataNew(newData);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   React.useEffect(() => {
     const mergedData = { ...data };
@@ -181,6 +181,8 @@ export default function TagInfo() {
   }
 
   const paginatedData = arrayData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  //console.log(dataNew);
 
   return (
     <div className="mx-auto md:p-3 pt-10">

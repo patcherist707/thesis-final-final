@@ -27,16 +27,16 @@ export const setUpRfidDataTagListener  = (io, uid) => {
 
 }
 
-export const setUpRegisteredTagListener = async(io, uid) => {
+export const setUpTagInformationListener = async(io, uid) => {
   try {
     const dataRef1 = realtime.ref(`/${uid}/registrationForm`);
     const dataRef2 = realtime.ref(`/${uid}/UIDInformation`);
     const dataRef3 = realtime.ref(`/${uid}/dateOfLoading`);
     const dataRef4 = realtime.ref(`/${uid}/dateOfUnLoading`);
 
-    async function handleAllData(regForm, uidInfo, dateOfLoadingObj, dateOfUnLoadingObj) {
-      const obj1 = regForm;
-      const obj2 = uidInfo;
+    async function handleAllData(tagInfoObj, rfidDataObj, dateOfLoadingObj, dateOfUnLoadingObj) {
+      const obj1 = tagInfoObj;
+      const obj2 = rfidDataObj;
       const obj3 = dateOfLoadingObj;
       const obj4 = dateOfUnLoadingObj;
       let activeCount = 0;
@@ -62,31 +62,34 @@ export const setUpRegisteredTagListener = async(io, uid) => {
 
     const fetchDataAndListen = async () => {
       try {
-        const [regFormSnapshot, uidInfoSnapshot, dateOfLoadingSnapshot, dateOfUnLoadingSnapshot] = await Promise.all([
+        const [tagInfoSnapshot, rfidDataSnapshot, dateOfLoadingSnapshot, dateOfUnLoadingSnapshot] = await Promise.all([
           dataRef1.once('value'),
           dataRef2.once('value'),
           dataRef3.once('value'),
           dataRef4.once('value')
         ]);
 
-        const regFormObj = regFormSnapshot.val();
-        const uidInfoObj = uidInfoSnapshot.val();
+        const tagInfoObj = tagInfoSnapshot.val();
+        const rfidDataObj = rfidDataSnapshot.val();
         const dateOfLoadingObj = dateOfLoadingSnapshot.val();
         const dateOfUnLoadingObj = dateOfUnLoadingSnapshot.val();
+        
+        //console.log(tagInfoObj);
 
-        await handleAllData(regFormObj, uidInfoObj, dateOfLoadingObj, dateOfUnLoadingObj);
+        await handleAllData(tagInfoObj, rfidDataObj, dateOfLoadingObj, dateOfUnLoadingObj);
       } catch (error) {
         console.error('Error fetching data:', error.message);
       }
     };
 
     await fetchDataAndListen();
-    
+
     dataRef1.on('value', fetchDataAndListen);
     dataRef2.on('value', fetchDataAndListen);
     dataRef3.on('value', fetchDataAndListen);
     dataRef4.on('value', fetchDataAndListen);
-    
+
+
   } catch (error) {
     console.error('Error in setUpRegisteredTagListener:', error.message);
   }
@@ -106,3 +109,4 @@ export const setMaxCapacityValueListener = (io, uid) => {
     console.error('Error fetching document:', error);
   });
 }
+

@@ -9,7 +9,7 @@ import cors from 'cors';
 import {Server} from 'socket.io';
 import {setTempHumidDataListener, logTempHumidData} from './data/temp.humid.js';
 import cron from "node-cron";
-import { setMaxCapacityValueListener, setUpRegisteredTagListener, setUpRfidDataTagListener } from "./data/rfidData.js";
+import { setMaxCapacityValueListener, setUpRfidDataTagListener, setUpTagInformationListener } from "./data/rfidData.js";
 import maxValueCapacityRoutes from './routes/data.route.js';
 
 dotenv.config();
@@ -19,7 +19,7 @@ const httpServer = createServer(app);
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors());
 
 const io = new Server(httpServer, {
   cors: {
@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
     console.log('Client Connected!');
     setTempHumidDataListener(io, uid);
     setUpRfidDataTagListener(io, uid);
-    setUpRegisteredTagListener(io, uid);
+    setUpTagInformationListener(io, uid);
     setMaxCapacityValueListener(io, uid);
   });
   

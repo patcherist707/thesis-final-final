@@ -60,11 +60,11 @@ export default function Header() {
                 Dashboard
               </Dropdown.Item>
             </Link>
-            <Link to={'/dashboard?tab=tag-info'}>
+            {/* <Link to={'/dashboard?tab=tag-info'}>
               <Dropdown.Item icon={MdOutlineInventory}>
                 UID
               </Dropdown.Item>
-            </Link>
+            </Link> */}
             <Link to={'/dashboard?tab=notification'}>
               <Dropdown.Item icon={AiFillNotification}>
                 Notification

@@ -12,7 +12,7 @@ import HumidChart from "./subdashComp/HumidChart";
 export default function DashComponents() {
   return (
     // main container
-    <div className="flex flex-col gap-20 p-8 mx-auto w-full">
+    <div className="flex flex-col gap-20 p-6 mx-auto w-full">
 
       {/* DataTable, Temperature, Humidity, StockCountIn, StockCountOut, TempHumidSummary, StocksSummary */}
       <div className="flex flex-col gap-4 mx-auto w-full xl:flex-row">
