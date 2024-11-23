@@ -1,112 +1,104 @@
 import { Line } from 'react-chartjs-2';
+import { useEffect, useState } from 'react';
+import Paper from '@mui/material/Paper';
+import { firestoreClient } from '../../firebase';
+import { collection, getDocs, onSnapshot } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 import {
-  Chart as ChartJS, 
-  CategoryScale, 
-  LinearScale, 
-  PointElement, 
-  LineElement, 
-  Title, 
-  Tooltip, 
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
   Legend
 } from 'chart.js';
-import { useEffect, useState } from 'react';
-// import io from 'socket.io-client';
-import Paper from '@mui/material/Paper';
 
 ChartJS.register(
-  CategoryScale, 
-  LinearScale, 
-  PointElement, 
-  LineElement, 
-  Title, 
-  Tooltip, 
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
   Legend
 );
 
 export default function TempChart() {
-  const [chartData, setChartData] = useState(() => {
-    const storedData = localStorage.getItem('tempData');
-    return storedData ? JSON.parse(storedData) : {
-      labels: [], 
-      datasets: [
-        {
-          label: "",
-          data: [],
-          borderColor: "rgb(75, 192, 192)",
-          borderWidth: 1,
-          tension: 0.5, 
-        }
-      ]
-    };
+  const { currentUser } = useSelector((state) => state.user);
+  const [chartData, setChartData] = useState({
+    labels: [], // Initialize labels as empty array
+    datasets: [
+      {
+        label: 'Temperature (°C)',
+        data: [], // Initialize data as empty array
+        borderColor: 'rgba(75,192,192,1)',
+        tension: 0.5
+      }
+    ]
   });
 
-  const [data, setData] = useState({ temperature: 0 });
+  const userId = currentUser._id;
+  const date = new Date().toISOString().split('T')[0];
 
-  // useEffect(() => {
-  //   const socket = io('http://localhost:4000');
-    
-  //   // Corrected: Listening to the event
-  //   socket.on('updateTempHumidData', (newData) => {
-  //     const newValue = newData.temperature;
-  //     const now = new Date();
-
-  //     setChartData((prevChartData) => {
-  //       const lastTimeLabel = prevChartData.labels.slice(-1)[0];
-  //       const lastTime = new Date();
-
-  //       if(lastTimeLabel){
-  //         const [lastHours, lastMinutes, lastSeconds] = lastTimeLabel.split(':').map(Number);
-  //         lastTime.setHours(lastHours, lastMinutes, lastSeconds);
-  //       }
-
-  //       const timeDifference = (now - lastTime) / (1000 * 60); // in minutes
-
-  //       if(timeDifference >= 2 || prevChartData.labels.length === 0){
-  //         const timeLabel = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-  //         const updatedChartData = {
-  //           labels: [...prevChartData.labels, timeLabel],
-  //           datasets: prevChartData.datasets.map((dataset) => ({
-  //             ...dataset,
-  //             data: [...dataset.data, newValue],
-  //           })),
-  //         };
-
-  //         localStorage.setItem('tempData', JSON.stringify(updatedChartData));
-
-  //         return updatedChartData;
-  //       }
-
-  //       return prevChartData;
-  //     });
-
-  //     setData(newData);
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Set up Firestore snapshot listener for real-time updates
+        const unsub = onSnapshot(
+          collection(firestoreClient, 'temperature_humidity_data', userId, 'Date', date, 'readings'),
+          (snapshot) => {
+            const data = snapshot.docs.map(doc => doc.data());
+  
+            if (data && data.length > 0) {
+              // Sort data based on timestamp (ascending order)
+              const sortedData = data.sort((a, b) => {
+                const timestampA = a.timestamp?.seconds || 0;
+                const timestampB = b.timestamp?.seconds || 0;
+                return timestampA - timestampB;
+              });
+  
+              // Prepare chart data: extract temperature and timestamp
+              const temperatures = sortedData.map(item => item.temperature);
+              const timestamps = sortedData.map(item => {
+                const timestamp = item.timestamp?.seconds * 1000; // Convert to milliseconds
+                return new Date(timestamp).toLocaleTimeString(); // Convert to a readable time
+              });
+  
+              // Update chart data
+              setChartData({
+                labels: timestamps,
+                datasets: [
+                  {
+                    label: 'Temperature (°C)',
+                    data: temperatures,
+                    borderColor: 'rgba(75,192,192,1)',
+                    tension: 0.5
+                  }
+                ]
+              });
+            } else {
+              console.log('No valid data available');
+            }
+          }
+        );
+  
+        // Cleanup listener when component unmounts
+        return () => unsub();
+      } catch (error) {
+        console.error('Error fetching data from Firestore:', error);
+      }
+    };
+  
+    fetchData();
+  }, [userId, date]); // This will re-fetch data when the date or userId changes
+  
 
   return (
     <div>
       <Paper>
-        <Line 
-          data={chartData} 
-          options={
-            { responsive: true,
-              scales: {
-                y: {
-                  ticks: {
-                    callback: function(value) {
-                      return value.toFixed(1);
-                    }
-                  }
-                }
-              }
-
-           }} 
-          className='p-3 mb-5' 
-        />
+        <Line data={chartData} />
       </Paper>
     </div>
   );

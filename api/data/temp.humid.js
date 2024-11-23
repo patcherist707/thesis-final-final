@@ -5,33 +5,8 @@ export const setTempHumidDataListener = (io, uid) => {
     dataRef.on('value', async(snapshot) => {
     const tempHumidData = snapshot.val();
     if (tempHumidData){
-      // const { temperature, humidity } = tempHumidData;
-
-      // if(temperature !== 20 && ![40, 60, 80].includes(humidity)){
-      //   const data = {
-      //     temperature: temperature,
-      //     humidity: humidity,
-      //     data: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-      //   }
-
-      //   try {
-      //     await firestore
-      //       .collection('temp-humid-threshold')
-      //       .doc(uid)
-      //       .collection('data')
-      //       .add(data);
-
-      //     console.log('Data saved to Firestore!');
-      //   } catch (error) {
-      //     console.error('Error saving data to Firestore: ', error);
-      //   }
-      // }
-      
       io.emit('updateTempHumidData', tempHumidData);
     };
-
-    
-    
   })
 }
 
