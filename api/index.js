@@ -7,7 +7,7 @@ import {createServer} from 'node:http';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import {Server} from 'socket.io';
-import {setTempHumidDataListener, logTempHumidData} from './data/temp.humid.js';
+import {setTempHumidDataListener, fetchTempHumidEvery5Minute} from './data/temp.humid.js';
 import cron from "node-cron";
 import { setMaxCapacityValueListener, setUpRfidDataTagListener, setUpTagInformationListener } from "./data/rfidData.js";
 import maxValueCapacityRoutes from './routes/data.route.js';
@@ -45,9 +45,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-// cron.schedule('* * * * *', () => {
-//   logTempHumidData();
-// });
+cron.schedule('*/5 * * * *', () => {
+  fetchTempHumidEvery5Minute();
+});
 
 io.on('connection', (socket) => {
 
