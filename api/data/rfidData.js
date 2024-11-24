@@ -1,7 +1,11 @@
 import {realtime, firestore} from "../firebaseConfig.js";
+import { data } from "../test-folder/test.data.js";
 
-export const setUpRfidDataTagListener  = (io, uid) => {
+export const setUpRfidDataTagListener  = async(io, uid) => {
   const dataRef = realtime.ref(`/${uid}/UIDInformation`);
+  const dataRef2 = realtime.ref(`/${uid}/inflow`);
+  const dataRef3 = realtime.ref(`/${uid}/outflow`);
+
   const parseDate = (dateStr) => {
     if (!dateStr) return new Date(0);
     const [day, month, year, hour, minute, second] = dateStr.split(/[\/\s:]/);
@@ -22,6 +26,120 @@ export const setUpRfidDataTagListener  = (io, uid) => {
       io.emit('rfidDataTagUpdate', rfidDataTagEntries);
       
     }
+  })
+
+  dataRef2.on('value', (snapshot) => {
+    const inflowData = snapshot.val();
+    const monthlyInventory = {};
+    const monthlyInventoryTest = {};
+    if(inflowData){
+      for(let date in inflowData){
+        const month = date.substring(0, 7);
+
+        if(!monthlyInventory[month]){
+          monthlyInventory[month] = 0;
+        }
+
+        monthlyInventory[month] += inflowData[date];
+      }
+
+      for(let date in data){
+        const month = date.substring(0, 7);
+
+        if(!monthlyInventoryTest[month]){
+          monthlyInventoryTest[month] = 0;
+        }
+
+        monthlyInventoryTest[month] += data[date];
+      }
+
+      const dataSets = Object.keys(monthlyInventory).map(key =>({[key]: monthlyInventory[key]}));
+
+      const hmm = Object.keys(monthlyInventoryTest).map(key =>({[key]: monthlyInventoryTest[key]}));
+      
+      dataSets.forEach(obj => {
+        const month = Object.keys(obj)[0];
+        const totalInFlow = obj[month];
+
+        firestore
+        .collection('monthlyInflow')
+        .doc(uid)
+        .collection('month')
+        .doc(month)
+        .set({totalInFlow})
+        .then(() => {
+          console.log(`Data for ${month} successfully written!`);
+        })
+        .catch(error => {
+          console.error(`Error writing data for ${month}: `, error);
+        });
+
+
+      })
+
+        
+    }else{
+      console.log("There is a problem fetching data from the reference inflow");
+    }
+    
+    
+  })
+
+  dataRef3.on('value', (snapshot) => {
+    const outflowData = snapshot.val();
+    const monthlyInventory = {};
+    // const monthlyInventoryTest = {};
+    if(outflowData){
+      for(let date in outflowData){
+        const month = date.substring(0, 7);
+
+        if(!monthlyInventory[month]){
+          monthlyInventory[month] = 0;
+        }
+
+        monthlyInventory[month] += outflowData[date];
+      }
+
+      // for(let date in data){
+      //   const month = date.substring(0, 7);
+
+      //   if(!monthlyInventoryTest[month]){
+      //     monthlyInventoryTest[month] = 0;
+      //   }
+
+      //   monthlyInventoryTest[month] += data[date];
+      // }
+
+      const dataSets = Object.keys(monthlyInventory).map(key =>({[key]: monthlyInventory[key]}));
+
+      // const hmm = Object.keys(monthlyInventoryTest).map(key =>({[key]: monthlyInventoryTest[key]}));
+      
+      dataSets.forEach(obj => {
+        const month = Object.keys(obj)[0];
+        const totalOutFlow = obj[month];
+
+        firestore
+        .collection('monthlyOutflow')
+        .doc(uid)
+        .collection('month')
+        .doc(month)
+        .set({totalOutFlow})
+        .then(() => {
+          console.log(`Data for ${month} successfully written!`);
+        })
+        .catch(error => {
+          console.error(`Error writing data for ${month}: `, error);
+        });
+
+
+      })
+
+        
+    }else{
+      console.log("There is a problem fetching data from the reference inflow");
+    }
+    
+    
   })
 
 

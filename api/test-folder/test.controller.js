@@ -1,4 +1,5 @@
 import {firestore} from "../firebaseConfig.js"
+import { data } from "./test.data.js";
 
 export const testDatabase = async(req, res) => {
   try {
@@ -37,4 +38,20 @@ export const philippineTimeCheck = async() => {
   console.log(philippinesTime.toLocaleString());
 
 
+}
+
+export const monthlyInventoryTest = () => {
+  
+
+  const monthlyInventory = {};
+  for(let date in data){
+    const month = date.substring(0, 7);
+
+    if(!monthlyInventory[month]){
+      monthlyInventory[month] = 0;
+    }
+
+    monthlyInventory[month] += data[date];
+  }
+  console.log(monthlyInventory)
 }
