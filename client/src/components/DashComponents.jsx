@@ -6,13 +6,12 @@ import StockCountIn from "./subdashComp/StockCountIn";
 import StockCountOut from "./subdashComp/StockCountOut";
 import StocksSummary from "./subdashComp/StocksSummary";
 import DataTable from "./subdashComp/DataTable";
-import TempChart from "./subdashComp/TempChart";
-import HumidChart from "./subdashComp/HumidChart";
+import TempHumidChart from "./subdashComp/TempHumidChart";
 
 export default function DashComponents() {
   return (
     // main container
-    <div className="flex flex-col gap-20 p-6 mx-auto w-full">
+    <div className="flex flex-col gap-20 p-11 mx-auto w-full">
 
       {/* DataTable, Temperature, Humidity, StockCountIn, StockCountOut, TempHumidSummary, StocksSummary */}
       <div className="flex flex-col gap-4 mx-auto w-full xl:flex-row">
@@ -103,14 +102,8 @@ export default function DashComponents() {
       {/* TempChart, HumidChart, StocksChart */}
       <div className="flex flex-col gap-10 w-full">
         <div>
-          <h1 className="text-xl text-slate-700 text-center font-semibold">Temperature</h1>
-          <TempChart/>
+          <TempHumidChart/>
         </div>
-        <div>
-          <h1 className="text-xl text-slate-700 text-center font-semibold">Relative Humidity</h1>
-          <HumidChart/>
-        </div>
-        <div></div>
       </div>
       
     </div>
