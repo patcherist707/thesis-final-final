@@ -11,6 +11,7 @@ import {setTempHumidDataListener, fetchTempHumidEvery5Minute} from './data/temp.
 import cron from "node-cron";
 import { setMaxCapacityValueListener, setUpRfidDataTagListener, setUpTagInformationListener } from "./data/rfidData.js";
 import maxValueCapacityRoutes from './routes/data.route.js';
+import { philippineTimeCheck } from "./test-folder/test.controller.js";
 
 dotenv.config();
 const app = express();
@@ -48,6 +49,10 @@ app.use((err, req, res, next) => {
 cron.schedule('*/5 * * * *', () => {
   fetchTempHumidEvery5Minute();
 });
+
+// cron.schedule('* * * * *', () => {
+//   philippineTimeCheck()
+// });
 
 io.on('connection', (socket) => {
 

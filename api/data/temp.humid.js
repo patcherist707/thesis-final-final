@@ -14,8 +14,17 @@ export const fetchTempHumidEvery5Minute = async() => {
   try {
     const snapshot = await realtime.ref('/' ).once('value');
     const allUsersData = snapshot.val();
-    const date = new Date().toISOString().split('T')[0];
+   
+    const currentUTC = new Date();
+    const philippinesTime = new Date(currentUTC.getUTCFullYear(), currentUTC.getUTCMonth(), currentUTC.getUTCDate(), currentUTC.getUTCHours(), currentUTC.getUTCMinutes(), currentUTC.getUTCSeconds(), currentUTC.getUTCMilliseconds());
+    philippinesTime.setHours(philippinesTime.getHours() + 8);
+
     
+    const year = philippinesTime.getFullYear();
+    const month = String(philippinesTime.getMonth() + 1).padStart(2, '0');
+    const day = String(philippinesTime.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+
     for(const userId in allUsersData){
       const userData = allUsersData[userId];
       
@@ -27,7 +36,7 @@ export const fetchTempHumidEvery5Minute = async() => {
           .collection('temperature_humidity_data')
           .doc(userId)
           .collection('Date')
-          .doc(date)
+          .doc(formattedDate)
           .collection('readings')
           .add({
             temperature,

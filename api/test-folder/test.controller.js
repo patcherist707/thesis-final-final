@@ -29,3 +29,12 @@ export const test = async(req, res) => {
   });
 }
 
+export const philippineTimeCheck = async() => {
+
+  const currentUTC = new Date();
+  const philippinesTime = new Date(currentUTC.getUTCFullYear(), currentUTC.getUTCMonth(), currentUTC.getUTCDate(), currentUTC.getUTCHours(), currentUTC.getUTCMinutes(), currentUTC.getUTCSeconds(), currentUTC.getUTCMilliseconds());
+  philippinesTime.setHours(philippinesTime.getHours() + 8);
+  console.log(philippinesTime.toLocaleString());
+
+
+}
