@@ -30,8 +30,6 @@ export const fetchTempHumidEvery5Minute = async() => {
       
       if(userData && userData.tempHumid){
         const {temperature, humidity} = userData.tempHumid;
-        const username = userData.username;
-
         await firestore
           .collection('temperature_humidity_data')
           .doc(userId)
@@ -41,7 +39,6 @@ export const fetchTempHumidEvery5Minute = async() => {
           .add({
             temperature,
             humidity,
-            username,
             timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
           })
       

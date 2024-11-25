@@ -54,17 +54,17 @@ export const setUpRfidDataTagListener  = async(io, uid) => {
       }
 
       const dataSets = Object.keys(monthlyInventory).map(key =>({[key]: monthlyInventory[key]}));
-
-      const hmm = Object.keys(monthlyInventoryTest).map(key =>({[key]: monthlyInventoryTest[key]}));
       
       dataSets.forEach(obj => {
-        const month = Object.keys(obj)[0];
-        const totalInFlow = obj[month];
+        const monthYear = Object.keys(obj)[0];
+        const totalInFlow = obj[monthYear];
+        const year = monthYear.substring(0, 4);
+        const month = monthYear.substring(5,7);
 
         firestore
         .collection('monthlyInflow')
         .doc(uid)
-        .collection('month')
+        .collection(year)
         .doc(month)
         .set({totalInFlow})
         .then(() => {
@@ -115,15 +115,17 @@ export const setUpRfidDataTagListener  = async(io, uid) => {
       // const hmm = Object.keys(monthlyInventoryTest).map(key =>({[key]: monthlyInventoryTest[key]}));
       
       dataSets.forEach(obj => {
-        const month = Object.keys(obj)[0];
-        const totalOutFlow = obj[month];
+        const monthYear = Object.keys(obj)[0];
+        const totalInFlow = obj[monthYear];
+        const year = monthYear.substring(0, 4);
+        const month = monthYear.substring(5,7);
 
         firestore
         .collection('monthlyOutflow')
         .doc(uid)
-        .collection('month')
+        .collection(year)
         .doc(month)
-        .set({totalOutFlow})
+        .set({totalInFlow})
         .then(() => {
           console.log(`Data for ${month} successfully written!`);
         })

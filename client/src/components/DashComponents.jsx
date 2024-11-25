@@ -7,6 +7,8 @@ import StockCountOut from "./subdashComp/StockCountOut";
 import StocksSummary from "./subdashComp/StocksSummary";
 import DataTable from "./subdashComp/DataTable";
 import TempHumidChart from "./subdashComp/TempHumidChart";
+import StocksChart from "./subdashComp/StocksChart";
+import { Paper } from "@mui/material";
 
 export default function DashComponents() {
   return (
@@ -20,7 +22,7 @@ export default function DashComponents() {
         <div className="flex-1 flex-col mx-auto sm:flex-row">
           
           {/* Temperature, Humidity, TempHumidSummary */}
-          <div className="flex p-2 flex-col gap-3 mb-2  bg-gray-200 shadow-2xl">
+          <Paper className="flex p-2 flex-col gap-3 mb-10  bg-gray-200 shadow-2xl">
 
             {/* Temperature, Humidity */}
             <div className="flex flex-col gap-2 sm:flex-row mx-auto w-full">
@@ -48,10 +50,12 @@ export default function DashComponents() {
               <TempHumidSummary/>
             </div>
 
-          </div>
+
+
+          </Paper>
 
           {/* StockCountIn, StockCountOut, StocksSummary */}
-          <div className="flex p-2 flex-col gap-3 mb-2  bg-gray-200 shadow-2xl">
+          <Paper className="flex p-2 flex-col gap-3 mb-5  bg-gray-200 shadow-2xl">
             
             {/* StockCountIn, StockCountOut */}
             <div className="flex flex-col gap-2 sm:flex-row mx-auto w-full">
@@ -84,25 +88,32 @@ export default function DashComponents() {
               <StocksSummary/>
             </div>
 
-          </div>
+          </Paper>
 
         </div>
         
         {/* DataTable */}
-        <div className="flex-1 w-full">
+        <Paper className="flex-1 w-full">
           <DataTable />
-        </div>
+        </Paper>
 
       </div>
 
-      <div className="border-b-2 border-gray-300 ">
-        <span className="text-4xl text-gray-300 font-bold">Analytics</span>
-      </div>
+      
 
       {/* TempChart, HumidChart, StocksChart */}
       <div className="flex flex-col gap-10 w-full">
+        <div className="border-b-2 border-gray-300 ">
+          <span className="text-4xl text-gray-300 font-bold">Storage Conditions Graph</span>
+        </div>
         <div>
           <TempHumidChart/>
+        </div>
+        <div>
+          <div className="border-b-2 border-gray-300 ">
+            <span className="text-4xl text-gray-300 font-bold">Stock Flow Trends</span>
+          </div>
+          <StocksChart/>
         </div>
       </div>
       

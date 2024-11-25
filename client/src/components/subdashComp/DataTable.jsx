@@ -302,9 +302,6 @@ export default function DataTable() {
 
   return (
     <div className="mx-auto md:p-3 pt-10">
-      <div className="mb-1 border-b-4">
-        <h3 className="text-xl font-semibold text-slate-700">RFID Tag Information</h3>
-      </div>
       <div className='overflow-x-scroll md:mx-auto shadow-md'>
         <Table hoverable className="w-auto">
           <Table.Head>

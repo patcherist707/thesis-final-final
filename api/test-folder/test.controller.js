@@ -1,5 +1,5 @@
 import {firestore} from "../firebaseConfig.js"
-import { data } from "./test.data.js";
+import { data, tempHumidData2024, tempHumidData2025 } from "./test.data.js";
 
 export const testDatabase = async(req, res) => {
   try {
@@ -42,10 +42,11 @@ export const philippineTimeCheck = async() => {
 
 export const monthlyInventoryTest = () => {
   
-
+  const uid = "sFTZuNVYzzx8eWgknLTg";
   const monthlyInventory = {};
   for(let date in data){
     const month = date.substring(0, 7);
+    
 
     if(!monthlyInventory[month]){
       monthlyInventory[month] = 0;
@@ -53,5 +54,65 @@ export const monthlyInventoryTest = () => {
 
     monthlyInventory[month] += data[date];
   }
-  console.log(monthlyInventory)
+  console.log(monthlyInventory);
+  const dataSets = Object.keys(monthlyInventory).map(key =>({[key]: monthlyInventory[key]}));
+  console.log(dataSets);
+
+  dataSets.forEach(obj => {
+    const monthYear = Object.keys(obj)[0];
+    const totalInFlow = obj[monthYear];
+    const year = monthYear.substring(0, 4);
+    const month = monthYear.substring(5,7);
+
+    firestore
+    .collection('monthlyInflowTest')
+    .doc(uid)
+    .collection(year)
+    .doc(month)
+    .set({totalInFlow})
+    .then(() => {
+      console.log(`Data for ${month} successfully written!`);
+    })
+    .catch(error => {
+      console.error(`Error writing data for ${month}: `, error);
+    });
+  })
+}
+
+export const tempHumidReadingTest = async() => {
+  for(const obj of tempHumidData2024){
+    try {
+      await firestore
+        .collection('temperature_humidity_data_test')
+        .doc("sFTZuNVYzzx8eWgknLTg")
+        .collection('Date')
+        .doc("2024-11-24")
+        .collection("readings")
+        .add({
+          temperature: obj.temperature,
+          humidity: obj.humidity,
+          timestamp: obj.timestamp
+        })
+    } catch (error) {
+      console.error(`Error adding reading for ${obj.date}:`, error);
+    }
+  }
+
+  for(const obj of tempHumidData2025){
+    try {
+      await firestore
+        .collection('temperature_humidity_data_test')
+        .doc("sFTZuNVYzzx8eWgknLTg")
+        .collection('Date')
+        .doc("2024-11-25")
+        .collection("readings")
+        .add({
+          temperature: obj.temperature,
+          humidity: obj.humidity,
+          timestamp: obj.timestamp
+        })
+    } catch (error) {
+      console.error(`Error adding reading for ${obj.date}:`, error);
+    }
+  }
 }
