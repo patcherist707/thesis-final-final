@@ -136,6 +136,7 @@ export default function TempHumidChart() {
               onChange={(newDate) => {
                 setSelectedDate(newDate);
               }}
+              dateFormat={'yyyy-MM-dd'}
               
             />
          

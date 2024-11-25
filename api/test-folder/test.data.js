@@ -1,3 +1,5 @@
+import {firebaseAdmin} from '../firebaseConfig.js'
+
 export const data = {
   "2023-01-01": 1,
   "2023-01-02": 2,
@@ -1205,4 +1207,67 @@ export const tempHumidData2025 =[
     "humidity": 61.5,
     "timestamp": { "seconds": 1732515600, "nanoseconds": 0 }
   }
+]
+
+export const notificationTest = [
+  {
+    message: "New stock added to the inventory",
+    userId: "user1",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "System update scheduled for tonight",
+    userId: "user2",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "Temperature exceeded safe levels",
+    userId: "user3",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "New user registered on the platform",
+    userId: "user1",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "Stock levels running low for item A",
+    userId: "user4",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "Backup completed successfully",
+    userId: "user5",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "Humidity levels back to normal",
+    userId: "user6",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "RFID scanner needs maintenance",
+    userId: "user2",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "Stock out detected in Zone C",
+    userId: "user7",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
+  {
+    message: "Unauthorized access attempt blocked",
+    userId: "user8",
+    timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+    read: false,
+  },
 ]

@@ -1,5 +1,5 @@
 import {firestore} from "../firebaseConfig.js"
-import { data, tempHumidData2024, tempHumidData2025 } from "./test.data.js";
+import { data, notificationTest, tempHumidData2024, tempHumidData2025 } from "./test.data.js";
 
 export const testDatabase = async(req, res) => {
   try {
@@ -114,5 +114,29 @@ export const tempHumidReadingTest = async() => {
     } catch (error) {
       console.error(`Error adding reading for ${obj.date}:`, error);
     }
+  }
+}
+
+export const realtimeNotificationTest = () => {
+  try {
+    const batch = firestore.batch();
+    const uid = "FTl6X3pqqSx7sUpgBd6u";
+
+    notificationTest.forEach((notification) => {
+      const docRef = 
+      firestore
+      .collection('notifications')
+      .doc(uid)
+      .collection('messages')
+      .add({
+        messages: notification.message,
+        userId : uid,
+        timestamp: notification.timestamp,
+        isRead: notification.read,
+      })
+    })
+    console.log("Dummy notifications added successfully!");
+  } catch (error) {
+    console.error("Error adding dummy notifications: ", error);
   }
 }

@@ -2,12 +2,13 @@ import { Button, Navbar, Avatar, Dropdown} from "flowbite-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
-import { MdOutlineInventory } from "react-icons/md";
 import { AiFillNotification } from "react-icons/ai";
 import { HiArrowSmRight, HiUser } from "react-icons/hi";
 import { useSelector } from 'react-redux';
 import { signoutSuccess } from '../redux/user/userSlice.js';
 import { useDispatch } from 'react-redux';
+import NotificationBell from "./subdashComp/NotificationBell.jsx";
+import { FaHistory } from "react-icons/fa";
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -42,7 +43,11 @@ export default function Header() {
             </div>
           </Link>
         </div>
-        <div className="flex gap-2 md:order-2">
+        
+        <div className="flex gap-8 md:order-2 items-center">
+        <div>
+          <NotificationBell/>
+        </div>
           {currentUser ? (
             <Dropdown
             arrowIcon={false}
@@ -65,9 +70,9 @@ export default function Header() {
                 UID
               </Dropdown.Item>
             </Link> */}
-            <Link to={'/dashboard?tab=notification'}>
-              <Dropdown.Item icon={AiFillNotification}>
-                Notification
+            <Link to={'/dashboard?tab=history'}>
+              <Dropdown.Item icon={FaHistory}>
+                History
               </Dropdown.Item>
             </Link>
             <Link to={'/dashboard?tab=profile'}>
