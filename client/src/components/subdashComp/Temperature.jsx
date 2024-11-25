@@ -19,7 +19,7 @@ export default function Temperature() {
       socket.disconnect();
     }
   }, [currentUser]);
-  
+  console.log(data)
   return (
     <div>
       {/* <GaugeComponent

@@ -38,7 +38,7 @@ export default function NotificationBell() {
       <button onClick={handleBellClick}>
         <FaBell size={30} />
         {count > 0 && (
-          <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+          <span className="absolute top-0 right-1 bg-red-500 text-white text-xs rounded-full px-1 py-1">
             {count}
           </span>
         )}

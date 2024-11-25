@@ -24,7 +24,7 @@ app.use(cors());
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5175",
     methods: ["GET", "POST", "DELETE", "PUSH"]
   }
 });
@@ -56,7 +56,7 @@ cron.schedule('* * * * *', () => {
 
 // monthlyInventoryTest();
 // tempHumidReadingTest();
-realtimeNotificationTest();
+// realtimeNotificationTest();
 
 io.on('connection', (socket) => {
 

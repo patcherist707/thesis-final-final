@@ -45,8 +45,12 @@ export default function Header() {
         </div>
         
         <div className="flex gap-8 md:order-2 items-center">
+          
         <div>
-          <NotificationBell/>
+          {currentUser? (<>
+            <NotificationBell/>
+          </>):(<></>)}
+          
         </div>
           {currentUser ? (
             <Dropdown
