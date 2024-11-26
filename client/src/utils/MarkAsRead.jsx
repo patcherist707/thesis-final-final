@@ -13,7 +13,7 @@ const MarkAsRead = async (userId, notificationId) => {
     );
 
     // Update the "isRead" field to true
-    await updateDoc(notificationDocRef, { isRead: true });
+    await updateDoc(notificationDocRef, { read: true });
 
     console.log(`Notification ${notificationId} marked as read.`);
   } catch (error) {

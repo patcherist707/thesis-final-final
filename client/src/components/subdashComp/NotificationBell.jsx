@@ -7,7 +7,7 @@ import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
 export default function NotificationBell() {
-  const [count, setCount] = useState(0); // Initialize count to 0
+  const [count, setCount] = useState(0); 
   const { currentUser } = useSelector((state) => state.user);
   const uid = currentUser._id;
 
@@ -21,7 +21,7 @@ export default function NotificationBell() {
     
 
     const messagesRef = collection(firestoreClient, "notifications", uid, "messages");
-    const q = query(messagesRef, where("isRead", "==", false)); 
+    const q = query(messagesRef, where("read", "==", false)); 
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const notifications = querySnapshot.docs.map(doc => doc.data());
@@ -36,9 +36,9 @@ export default function NotificationBell() {
   return (
     <div className="relative">
       <button onClick={handleBellClick}>
-        <FaBell size={30} />
+        <FaBell size={35} />
         {count > 0 && (
-          <span className="absolute top-0 right-1 bg-red-500 text-white text-xs rounded-full px-1 py-1">
+          <span className="absolute top-1 right-1.5 bg-red-500 text-white text-xs rounded-full px-2 py-1">
             {count}
           </span>
         )}

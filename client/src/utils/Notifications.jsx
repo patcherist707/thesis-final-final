@@ -43,8 +43,6 @@ export default function Notifications() {
     return () => unsubscribe();
 
   }, [uid]); 
-
-  console.log(message)
   
   const handleMarkAsRead = (uid, notificationId) => {
     MarkAsRead(uid, notificationId);
