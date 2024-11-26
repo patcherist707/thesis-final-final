@@ -120,7 +120,7 @@ export const tempHumidReadingTest = async() => {
 export const realtimeNotificationTest = () => {
   try {
     const batch = firestore.batch();
-    const uid = "FTl6X3pqqSx7sUpgBd6u";
+    const uid = "kbAiIcOdBEMf8BLOv5YO";
 
     notificationTest.forEach((notification) => {
       const docRef = 

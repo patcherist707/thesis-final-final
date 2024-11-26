@@ -52,7 +52,7 @@ export default function Notifications() {
       {notification?.length > 0 ? ( 
         notification.map((item) => (
           <div key={item.id} className="w-full">
-            <Alert className="mb-2 w-full h-36 relative">
+            <Alert className="mb-2 w-full h-36 relative" color={'failure'}>
               <div className="flex flex-col gap-3">
                 <Button 
                   className="absolute top-2 right-2"
