@@ -112,12 +112,10 @@ export default function StocksChart() {
         setError(false);
 
         const yearCollectionRef = collection(firestoreClient, 'monthlyInflow', uid, year);
-
-        // Listen to snapshots of the year collection
         const unsub = onSnapshot(yearCollectionRef, (yearSnapshot) => {
           if (yearSnapshot.empty) {
             setError(true);
-            setErrorMessage(`No data available for year ${year}`);
+            setErrorMessage(`No inflow data available for year ${year}`);
             return;
           }
           const monthMap = new Map([
@@ -203,7 +201,7 @@ export default function StocksChart() {
         const unsub = onSnapshot(yearCollectionRef, (yearSnapshot) => {
           if (yearSnapshot.empty) {
             setError(true);
-            setErrorMessage(`No data available for year ${year}`);
+            setErrorMessage(`No otflow data available for year ${year}`);
             return;
           }
           const monthMap = new Map([
@@ -276,7 +274,9 @@ export default function StocksChart() {
     };
 
     fetchData();
-  }, [uid, year]); 
+  }, [uid, year]);
+  
+
 
   return (
     <div>

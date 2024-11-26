@@ -12,6 +12,7 @@ import cron from "node-cron";
 import { setMaxCapacityValueListener, setUpRfidDataTagListener, setUpTagInformationListener } from "./data/rfidData.js";
 import maxValueCapacityRoutes from './routes/data.route.js';
 import { monthlyInventoryTest, philippineTimeCheck, realtimeNotificationTest, tempHumidReadingTest } from "./test-folder/test.controller.js";
+import { rfidInFlowMessage, rfidoutFlowMessage } from "./notificattions/rfid.notification.js";
 
 dotenv.config();
 const app = express();
@@ -73,6 +74,13 @@ app.use((err, req, res, next) => {
 // monthlyInventoryTest();
 // tempHumidReadingTest();
 // realtimeNotificationTest();
+// rfidInFlowMessage();
+// rfidoutFlowMessage();
+
+// cron.schedule('0 23 * * *', () => {
+//   rfidInFlowMessage();
+//   rfidoutFlowMessage();
+// });
 
 
 io.on('connection', (socket) => {

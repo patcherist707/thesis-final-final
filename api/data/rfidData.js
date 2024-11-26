@@ -1,4 +1,3 @@
-import { Timestamp } from "firebase-admin/firestore";
 import {realtime, firestore, firebaseAdmin} from "../firebaseConfig.js";
 import { data } from "../test-folder/test.data.js";
 
@@ -228,62 +227,7 @@ export const setMaxCapacityValueListener = (io, uid) => {
   });
 }
 
-export const rfidInFlowMessage = async () => {
-  try {
-    const snapshot = await realtime.ref('/').once('value');
-    const allUsersData = snapshot.val();
 
-    for (const userId in allUsersData) {
-      const userData = allUsersData[userId];
-
-      if (userData && userData.inflow) {
-        const existingNotificationsSnapshot = await firestore
-          .collection('notifications')
-          .doc(userId)
-          .collection('messages')
-          .get();
-        const existingKeys = new Set(
-          existingNotificationsSnapshot.docs.map(doc => doc.data().timestampKey)
-        );
-
-        // Use Promise.all for concurrent writes
-        await Promise.all(
-          Object.entries(userData.inflow).map(async ([key, value]) => {
-            try {
-              const timestampKey = `${userId}_${key}_${value}`;
-              if (existingKeys.has(timestampKey)) {
-                console.log(`Notification for ${key} already exists for user ${userId}. Skipping.`);
-                return;
-              }
-
-              // Batch writes for efficiency
-              await firestore
-                .collection('notifications')
-                .doc(userId)
-                .collection('messages')
-                .add({
-                  messages: `${value} rice sacks have been loaded on ${key}`,
-                  userId,
-                  timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-                  read: false,
-                  date: key,
-                  timestampKey,
-                });
-
-              console.log(`Notification sent for ${key} to user ${userId}`);
-            } catch (error) {
-              console.error('Error sending notification to Firestore:', error);
-            }
-          })
-        );
-      } else {
-        console.log(`No inflow data available for user ${userId}`);
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching user data from Realtime Database:', error);
-  }
-};
 
 
 
