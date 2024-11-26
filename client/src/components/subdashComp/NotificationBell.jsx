@@ -1,7 +1,7 @@
 import React from "react";
 import { FaBell } from 'react-icons/fa';
 import { useState, useEffect } from "react";
-import Notifications from "../Notifications";
+import Notifications from "../../utils/Notifications";
 import { firestoreClient } from "../../firebase";
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { useSelector } from 'react-redux';

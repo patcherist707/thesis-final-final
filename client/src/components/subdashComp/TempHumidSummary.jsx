@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List, ListItem, Divider } from '@mui/material';
 import { RiCheckboxCircleFill } from "react-icons/ri";
 import { FaCircleXmark } from "react-icons/fa6";
-import TypingDots from "../TypingDots";
+import TypingDots from "../../utils/TypingDots";
 import { useSelector } from "react-redux";
 import io from 'socket.io-client';
 

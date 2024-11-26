@@ -3,7 +3,7 @@ import { firestoreClient  } from '../firebase.js';
 import { collection, onSnapshot, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { Button, Alert } from "flowbite-react";
 import { useSelector } from 'react-redux';
-import MarkAsRead from "./subdashComp/MarkAsRead.jsx";
+import MarkAsRead from "./MarkAsRead.jsx";
 
 
 export default function Notifications() {

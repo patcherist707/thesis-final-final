@@ -22,12 +22,28 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
 
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "http://localhost:5173",
+//     methods: ["GET", "POST", "DELETE", "PUSH"]
+//   }
+// });
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5175",
-    methods: ["GET", "POST", "DELETE", "PUSH"]
-  }
+    origin: (origin, callback) => {
+      const allowedOrigin = /^http:\/\/localhost:\d+$/;
+
+      if (origin && allowedOrigin.test(origin)) {
+        callback(null, true); 
+      } else {
+        callback(new Error("Not allowed by CORS")); 
+      }
+    },
+    methods: ["GET", "POST", "DELETE", "PUT"], 
+  },
 });
+
 
 app.use('/api', testRoutes);
 app.use('/api', authRoutes);
@@ -46,7 +62,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-cron.schedule('*/5 * * * *', () => {
+cron.schedule('*/10 * * * *', () => {
   fetchTempHumidEvery5Minute();
 });
 

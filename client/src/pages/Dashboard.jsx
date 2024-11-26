@@ -4,7 +4,6 @@ import DashProfile from "../components/DashProfile";
 import DashComponents from "../components/DashComponents";
 import DashSidebar from "../components/DashSidebar"
 import TagInformation from "../components/TagInformation";
-import Notifications from "../components/Notifications";
 import History from "../components/History";
 
 export default function Dashboard() {

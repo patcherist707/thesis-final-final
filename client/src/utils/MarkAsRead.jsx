@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "firebase/firestore";
-import { firestoreClient } from "../../firebase";
+import { firestoreClient } from "../firebase";
 
 const MarkAsRead = async (userId, notificationId) => {
   try {

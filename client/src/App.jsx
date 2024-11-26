@@ -7,7 +7,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Header from "./components/Header";
 import FooterCom from "./components/FooterCom";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./utils/PrivateRoute";
 
 
 export default function App() {
