@@ -183,9 +183,9 @@ export default function DataTable() {
   const paginatedData = arrayData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="mx-auto md:p-3 pt-10">
-      <div className='overflow-x-scroll md:mx-auto shadow-md'>
-        <Table hoverable className="w-auto">
+    <div className="mx-auto md:p-3 pt-10 w-full">
+      <div className='overflow-x-scroll w-full md:mx-auto shadow-md'>
+        <Table hoverable className="w-full mx-auto">
           <Table.Head>
             <Table.HeadCell>UID</Table.HeadCell>
             <Table.HeadCell>Status</Table.HeadCell>

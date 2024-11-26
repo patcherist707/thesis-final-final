@@ -1271,3 +1271,127 @@ export const notificationTest = [
     read: false,
   },
 ]
+
+export const regisTrationForm = [
+  {
+    "uid": "123456789012345678",
+    "dataOfRegistration": "2024/01/15 08:23:45",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "987654321098765432",
+    "dataOfRegistration": "2024/01/15 09:15:30",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "112233445566778899",
+    "dataOfRegistration": "2024/01/15 12:45:01",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "443322110099887766",
+    "dataOfRegistration": "2024/01/15 14:59:59",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "555666777888999000",
+    "dataOfRegistration": "2024/01/15 17:32:10",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "998877665544332211",
+    "dataOfRegistration": "2024/01/15 19:04:52",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "223344556677889900",
+    "dataOfRegistration": "2024/01/15 21:30:05",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "100200300400500600",
+    "dataOfRegistration": "2024/01/15 23:59:59",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "666555444333222111",
+    "dataOfRegistration": "2024/01/16 00:00:00",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "444333222111000999",
+    "dataOfRegistration": "2024/01/16 06:45:12",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "123123123123123123",
+    "dataOfRegistration": "2024/01/16 08:20:45",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "987987987987987987",
+    "dataOfRegistration": "2024/01/16 10:55:33",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "567890123456789012",
+    "dataOfRegistration": "2024/01/16 13:12:01",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "101112131415161718",
+    "dataOfRegistration": "2024/01/16 15:30:30",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "888777666555444333",
+    "dataOfRegistration": "2024/01/16 18:25:19",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "555111222333444555",
+    "dataOfRegistration": "2024/01/17 02:04:25",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "999888777666555444",
+    "dataOfRegistration": "2024/01/17 04:15:56",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "123456789987654321",
+    "dataOfRegistration": "2024/01/17 07:09:21",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "999123456789123456",
+    "dataOfRegistration": "2024/01/17 11:47:03",
+    "status": "inactive",
+    "registered": true
+  },
+  {
+    "uid": "777888999111222333",
+    "dataOfRegistration": "2024/01/17 14:10:12",
+    "status": "inactive",
+    "registered": true
+  }
+]
+

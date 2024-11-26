@@ -4,6 +4,7 @@ import { collection, onSnapshot, query, where, getDocs, orderBy } from 'firebase
 import { Button, Alert } from "flowbite-react";
 import { useSelector } from 'react-redux';
 import MarkAsRead from "./MarkAsRead.jsx";
+import { messaging } from "firebase-admin";
 
 
 export default function Notifications() {
@@ -16,7 +17,7 @@ export default function Notifications() {
     const messagesRef = collection(firestoreClient, "notifications", uid, "messages");
     const q = query(
       messagesRef, 
-      where("isRead", "==", false), // Adjust condition as needed
+      where("read", "==", false), // Adjust condition as needed
       orderBy("timestamp", "desc")
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -29,7 +30,7 @@ export default function Notifications() {
         message: msg.messages,
         id: msg.id,
         timestamp: msg.timestamp.toDate().toLocaleString(),
-        isRead: msg.isRead,
+        read: msg.read,
       }))
       const timestamp = messages.map((msg) => msg.timestamp.toDate().toLocaleString());
 
@@ -42,6 +43,8 @@ export default function Notifications() {
     return () => unsubscribe();
 
   }, [uid]); 
+
+  console.log(message)
   
   const handleMarkAsRead = (uid, notificationId) => {
     MarkAsRead(uid, notificationId);

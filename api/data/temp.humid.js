@@ -18,7 +18,6 @@ export const fetchTempHumidEvery5Minute = async() => {
     const currentUTC = new Date();
     const philippinesTime = new Date(currentUTC.getUTCFullYear(), currentUTC.getUTCMonth(), currentUTC.getUTCDate(), currentUTC.getUTCHours(), currentUTC.getUTCMinutes(), currentUTC.getUTCSeconds(), currentUTC.getUTCMilliseconds());
     philippinesTime.setHours(philippinesTime.getHours() + 8);
-
     
     const year = philippinesTime.getFullYear();
     const month = String(philippinesTime.getMonth() + 1).padStart(2, '0');
@@ -27,7 +26,6 @@ export const fetchTempHumidEvery5Minute = async() => {
 
     for(const userId in allUsersData){
       const userData = allUsersData[userId];
-      
       if(userData && userData.tempHumid){
         const {temperature, humidity} = userData.tempHumid;
         await firestore
@@ -41,13 +39,14 @@ export const fetchTempHumidEvery5Minute = async() => {
             humidity,
             timestamp: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
           })
+
+        console.log("Data is sent to firestore");
       
+      }else{
+        console.log("No data available in this account")
       }
     }
-    console.log("Data is sent to firestore");
-
   } catch (error) {
-    console.log(error);
+    console.log('Failed to send data to firestore collection temperature_humidity_data');
   }
-  
 }

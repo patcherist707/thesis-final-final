@@ -7,7 +7,7 @@ import {
 import { Alert} from 'flowbite-react';
 import { Modal, TextInput, Button } from 'flowbite-react';
 import { FaRegEdit } from "react-icons/fa";
-import TypingDots from "../TypingDots";
+import TypingDots from "../../utils/TypingDots";
 import { useSelector } from "react-redux";
 import io from 'socket.io-client';
 

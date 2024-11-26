@@ -5,10 +5,17 @@ import DashComponents from "../components/DashComponents";
 import DashSidebar from "../components/DashSidebar"
 import TagInformation from "../components/TagInformation";
 import History from "../components/History";
+import { useSelector } from "react-redux";
+import io from 'socket.io-client';
+
 
 export default function Dashboard() {
   const location = useLocation();
   const [tab, setTab] = useState('');
+  const { currentUser, err } = useSelector((state) => state.user);
+
+  const socket = io('http://localhost:3000');
+  const uid = currentUser._id;
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -17,6 +24,13 @@ export default function Dashboard() {
       setTab(tabFromUrl);
     }
   });
+
+  useEffect(() => {
+    
+    
+  }, [uid]);
+
+  
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">

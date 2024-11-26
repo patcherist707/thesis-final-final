@@ -62,17 +62,18 @@ app.use((err, req, res, next) => {
   });
 });
 
-cron.schedule('*/10 * * * *', () => {
-  fetchTempHumidEvery5Minute();
-});
+// cron.schedule('* * * * *', () => {
+//   fetchTempHumidEvery5Minute();
+// });
 
-cron.schedule('* * * * *', () => {
-  philippineTimeCheck()
-});
+// cron.schedule('* * * * *', () => {
+//   philippineTimeCheck()
+// });
 
 // monthlyInventoryTest();
 // tempHumidReadingTest();
 // realtimeNotificationTest();
+
 
 io.on('connection', (socket) => {
 
