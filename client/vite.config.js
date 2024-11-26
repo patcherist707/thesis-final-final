@@ -1,15 +1,22 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import wasm from 'vite-plugin-wasm';
 
-// https://vitejs.dev/config/
+// Export the Vite configuration
 export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3000', // Your backend server
         secure: false,
       },
     },
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    wasm(),
+  ],
+  optimizeDeps: {
+    exclude: ['firebase-admin'],  // Exclude firebase-admin from optimization
+  },
 });

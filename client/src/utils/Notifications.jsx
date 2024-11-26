@@ -4,7 +4,7 @@ import { collection, onSnapshot, query, where, getDocs, orderBy } from 'firebase
 import { Button, Alert } from "flowbite-react";
 import { useSelector } from 'react-redux';
 import MarkAsRead from "./MarkAsRead.jsx";
-import { messaging } from "firebase-admin";
+
 
 
 export default function Notifications() {
