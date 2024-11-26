@@ -49,7 +49,7 @@ export default function Notifications() {
   };
 
   return (
-    <div className="flex flex-col w-full items-center max-h-screen overflow-y-auto pb-28">
+    <div className="flex flex-col w-full items-center max-h-screen overflow-y-auto pb-20 pt-5">
       {notification?.length > 0 ? ( 
         notification.map((item) => (
           <div key={item.id} className="w-full">
@@ -63,10 +63,10 @@ export default function Notifications() {
                 >
                   Close
                 </Button>
-                <p className="flex justify-between">
+                <p className="flex justify-between  text-black font-bold">
                   {item.timestamp}
                 </p>
-                <p className="flex-1">{item.message}</p>
+                <p className="flex-1 text-black">{item.message}</p>
               </div>
             </Alert>
           </div>
