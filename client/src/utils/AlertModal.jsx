@@ -22,9 +22,10 @@ const AlertModal = ({ isOpen, alerts, onClose, onCloseAll }) => {
           maxHeight: "80vh", 
         }}
       >
-        <Typography variant="h6" sx={{ marginBottom: 2 }}>
+        <div className="mb-5 flex items-center justify-center">
+
           <RiErrorWarningFill size={50} color="red"/>
-        </Typography>
+        </div>
     
         <Box
           sx={{

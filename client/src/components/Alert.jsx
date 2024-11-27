@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import AlertModal from '../test/AlertModal';
+import AlertModal from '../utils/AlertModal';
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 
@@ -27,12 +27,13 @@ export default function Alert() {
     const checkForAlerts = () => {
       const idealTemperature = 20;
       if ((data.temperature > idealTemperature)) {
-        const newAlert = `Your sensor has recorded a temperature of ${data.temperature} that is more than the required 20C`;
+        const newAlert = `Your sensor has recorded a temperature of ${data.temperature}°C that is more than the required 20°C. This increase in temperature may impact the quality of stored items. Please lower the temperature to maintain the ideal threshold and prevent potential spoilage or degradation.
+        `;
         setAlertsQueue((prev) => [...prev, newAlert]);
       }
 
       if((data.temperature == idealTemperature) && (data.humidity < 40 || data.humidity > 80)){
-        const newAlert = `Your sensor has recorded a temperature of ${data.temperature} and humidty of ${data.humidity}`;
+        const newAlert = `Your sensor has recorded a temperature of ${data.temperature}°C and humidty of ${data.humidity}%. Adjust the cooling system to lower the temperature and consider using a dehumidifier to maintain ideal humidity levels. Maintain a <b>${`40%-50%`}</b> with a temperature of 20°C`;
         setAlertsQueue((prev) => [...prev, newAlert]);
       }
 
@@ -59,8 +60,8 @@ export default function Alert() {
     setIsModalOpen(false);
   };
   const closeAllAlerts = () => {
-    setAlertsQueue([]);  // Clear the queue of alerts
-    setIsModalOpen(false);  // Close the modal
+    setAlertsQueue([]); 
+    setIsModalOpen(false);  
   };
 
 
