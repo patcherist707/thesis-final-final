@@ -13,6 +13,7 @@ import { setMaxCapacityValueListener, setUpRfidDataTagListener, setUpTagInformat
 import maxValueCapacityRoutes from './routes/data.route.js';
 import { monthlyInventoryTest, philippineTimeCheck, realtimeNotificationTest, tempHumidReadingTest } from "./test-folder/test.controller.js";
 import { rfidInFlowMessage, rfidoutFlowMessage } from "./notificattions/rfid.notification.js";
+import { rfidThresholdAlert } from "./Alerts/rfid.alerts.js";
 
 dotenv.config();
 const app = express();
@@ -83,7 +84,10 @@ app.use((err, req, res, next) => {
 // });
 
 
+
 io.on('connection', (socket) => {
+
+  rfidThresholdAlert(io);
 
   socket.on('joinRoom', ({ uid }) => {
     // console.log(`User with UID ${uid} joined.`);
