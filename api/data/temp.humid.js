@@ -10,7 +10,7 @@ export const setTempHumidDataListener = (io, uid) => {
   })
 }
 
-export const fetchTempHumidEvery5Minute = async() => {
+export const fetchTempHumidEvery10Minute = async() => {
   try {
     const snapshot = await realtime.ref('/' ).once('value');
     const allUsersData = snapshot.val();

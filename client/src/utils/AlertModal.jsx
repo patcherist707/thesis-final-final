@@ -6,6 +6,11 @@ import {Button} from "flowbite-react";
 import { RiErrorWarningFill } from "react-icons/ri";
 
 const AlertModal = ({ isOpen, alerts, onClose, onCloseAll }) => {
+
+  
+  const date = new Date().toLocaleDateString();
+  const time = new Date().toLocaleTimeString();
+
   return (
     <Modal open={isOpen} onClose={onClose}>
       <Box
@@ -18,11 +23,12 @@ const AlertModal = ({ isOpen, alerts, onClose, onCloseAll }) => {
           padding: 4,
           borderRadius: 1,
           boxShadow: 24,
-          width: "650px",
+          width: "700px",
           maxHeight: "80vh", 
+          borderRadius: 10,
         }}
       >
-        <div className="mb-5 flex items-center justify-center">
+        <div className="mb-5 flex items-center justify-center animate-heartbeat">
 
           <RiErrorWarningFill size={50} color="red"/>
         </div>
@@ -38,9 +44,12 @@ const AlertModal = ({ isOpen, alerts, onClose, onCloseAll }) => {
           {alerts.length > 0 ? (
             <ul >
               {alerts.map((alert, index) => (
-                <Button key={index} className="bg-slate-500 mb-5 rounded-xl p-1" outline gradientDuoTone="purpleToPink" >
-                  <Typography variant="body1">{alert}</Typography>
-                </Button>
+                <div>
+                  <div className="font-bold">{date}, {time}</div>
+                  <Button key={index} className="bg-slate-500 mb-5 rounded-xl p-1" outline gradientDuoTone="purpleToPink" >
+                    <Typography variant="body1">{alert}</Typography>
+                  </Button>
+                </div>
               ))}
             </ul>
           ) : (
@@ -49,10 +58,10 @@ const AlertModal = ({ isOpen, alerts, onClose, onCloseAll }) => {
         </Box>
         <div className="flex justify-between">
         <Button outline onClick={onClose} >
-          Close
+          Clear
         </Button>
         <Button  outline onClick={onCloseAll} gradientDuoTone="pinkToOrange">
-          Close All
+          Clear All
         </Button>
 
         </div>
