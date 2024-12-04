@@ -34,9 +34,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* <div className='md:w-56'>
+      <div className='md:w-4/12 bg-white shadow '>
         <DashSidebar />
-      </div> */}
+      </div>
       {tab === 'profile' && <DashProfile/>}
       {tab === 'overview' && <DashComponents/>}
       {tab === 'tag-info' && <TagInformation/>}

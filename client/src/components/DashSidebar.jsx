@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux'
 import {signoutSuccess} from '../redux/user/userSlice';
 import { MdOutlineInventory } from "react-icons/md";
 import { AiFillNotification } from "react-icons/ai";
+import Alert from './Alert';
 
 export default function DashSidebar() {
   const location = useLocation();
@@ -40,8 +41,8 @@ export default function DashSidebar() {
   }
   
   return (
-    <>
-      <Sidebar className='w-full md:w-56 '>
+    <div className="sticky top-0 max-h-screen">
+      {/* <Sidebar className='w-full md:w-56 '>
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Link to={'/dashboard?tab=overview'}>
@@ -92,7 +93,8 @@ export default function DashSidebar() {
             </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
-      </Sidebar>
-    </>
+      </Sidebar> */}
+      <Alert></Alert>
+    </div>
   );
 }
