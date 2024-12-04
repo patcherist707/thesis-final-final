@@ -15,6 +15,8 @@ export default function StockCountOut() {
     };
 
   }, []);
+
+  console.log(countDown)
   
   return (
     <div>

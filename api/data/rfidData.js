@@ -168,7 +168,7 @@ export const setUpTagInformationListener = async(io, uid) => {
           activeCount++;
         }
   
-        if(obj1[key].status === 'Inactive' && obj1[key].dateOfUnLoading != 'N/A'){
+        if(obj1[key].status === 'inactive' && obj1[key].dateOfUnLoading != 'N/A'){
           inactiveCount++;
         }
       }

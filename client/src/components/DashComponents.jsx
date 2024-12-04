@@ -14,7 +14,7 @@ import Alert from "./Alert";
 export default function DashComponents() {
   return (
     <div>
-      <Alert/>
+      {/* <Alert/> */}
       <div className="flex flex-col gap-20 p-11 mx-auto w-full">
         
 
