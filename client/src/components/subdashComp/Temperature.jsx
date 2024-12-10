@@ -18,7 +18,7 @@ export default function Temperature() {
     return () => {
       socket.disconnect();
     }
-  }, [currentUser]);
+  }, [currentUser._id]);
   
   return (
     <div>

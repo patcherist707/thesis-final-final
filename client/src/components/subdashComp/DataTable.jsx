@@ -22,21 +22,25 @@ export default function DataTable() {
   const [deleteTagMessageDate, setDeleteTagMessageDate] = React.useState('');
   const [deletedUid, setDeletedUid] = React.useState('');
   const [currentTime, setCurrentTime] = React.useState(new Date());
+  
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(arrayData.length / itemsPerPage);
+  
 
   const onPageChange = (page) => setCurrentPage(page);
 
   React.useEffect(() => {
+    const uid = currentUser._id;
     const socket = io('http://localhost:3000');
+    socket.emit('joinRoom', { uid });
     socket.on('tagInfoObjUpdate', (newData) => {
       setData(newData);
     });
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [currentUser._id]);
 
   React.useEffect(() => {
     const timerId = setInterval(() => {
@@ -47,14 +51,16 @@ export default function DataTable() {
   }, []);
 
   React.useEffect(() => {
+    const uid = currentUser._id;
     const socket = io('http://localhost:3000');
+    socket.emit('joinRoom', { uid });
     socket.on('registeredTagUpdate', (newData) => {
       setDataNew(newData);
     });
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [currentUser._id]);
 
   React.useEffect(() => {
     const mergedData = { ...data };

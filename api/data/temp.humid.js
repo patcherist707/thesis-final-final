@@ -1,11 +1,13 @@
 import { realtime, firestore, firebaseAdmin } from "../firebaseConfig.js";
 
+
+
 export const setTempHumidDataListener = (io, uid) => {
   const dataRef = realtime.ref(`/DHT22/${uid}`);
     dataRef.on('value', async(snapshot) => {
     const tempHumidData = snapshot.val();
     if (tempHumidData){
-      io.emit('updateTempHumidData', tempHumidData);
+      io.to(uid).emit('updateTempHumidData', tempHumidData);
     };
   })
 }

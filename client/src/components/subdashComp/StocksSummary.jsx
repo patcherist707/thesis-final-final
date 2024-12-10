@@ -62,7 +62,9 @@ export default function StocksSummary() {
   }, [data.percentage]);
 
   useEffect(() => {
+    const uid = currentUser._id;
     const socket = io('http://localhost:3000');
+    socket.emit('joinRoom', { uid });
     socket.on('updateCapacityValue', (newData) => {
       setData(newData);
     });
@@ -70,11 +72,12 @@ export default function StocksSummary() {
     return () => {
       socket.disconnect();
     }
-  }, []);
+  }, [currentUser._id]);
 
   useEffect(() => {
+    const uid = currentUser._id;
     const socket = io('http://localhost:3000');
-
+    socket.emit('joinRoom', { uid });
     socket.on('countUpNew', (newData) => {
       setCountUp(newData);
     });
@@ -82,7 +85,7 @@ export default function StocksSummary() {
       socket.disconnect();
     };
 
-  }, []);
+  }, [currentUser._id]);
 
   const handleChange = (e) => {
     setMaxCapacity({ maxCapacityValue: e.target.value, countUp});

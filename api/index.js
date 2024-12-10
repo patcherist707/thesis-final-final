@@ -85,13 +85,31 @@ cron.schedule('0 23 * * *', () => {
 
 
 
+// io.on('connection', (socket) => {
+
+//   rfidThresholdAlert(io);
+
+//   socket.on('joinRoom', ({ uid }) => {
+//     // console.log(`User with UID ${uid} joined.`);
+//     console.log('Client Connected!');
+//     setTempHumidDataListener(io, uid);
+//     setUpRfidDataTagListener(io, uid);
+//     setUpTagInformationListener(io, uid);
+//     setMaxCapacityValueListener(io, uid);
+//   });
+  
+//   socket.on('disconnect', () => {
+//     console.log('Client Disconnected!');
+//   })
+// });
+
 io.on('connection', (socket) => {
 
   rfidThresholdAlert(io);
 
   socket.on('joinRoom', ({ uid }) => {
-    // console.log(`User with UID ${uid} joined.`);
-    console.log('Client Connected!');
+    console.log(`User with UID ${uid} joined.`);
+    socket.join(uid);
     setTempHumidDataListener(io, uid);
     setUpRfidDataTagListener(io, uid);
     setUpTagInformationListener(io, uid);
@@ -102,6 +120,8 @@ io.on('connection', (socket) => {
     console.log('Client Disconnected!');
   })
 });
+
+
 
 httpServer.listen(port, () => {
   console.log(`Server is running on port ${port}`);

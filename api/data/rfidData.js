@@ -22,7 +22,7 @@ export const setUpRfidDataTagListener  = async(io, uid) => {
       }
       rfidDataTagEntries.sort((a, b) => parseDate(b.date) - parseDate(a.date));
       const deviceIds = rfidDataTagEntries.map(item => item.deviceId);
-      io.emit('rfidDataTagUpdate', rfidDataTagEntries);
+      io.to(uid).emit('rfidDataTagUpdate', rfidDataTagEntries);
       
     }
   })
@@ -172,9 +172,9 @@ export const setUpTagInformationListener = async(io, uid) => {
           inactiveCount++;
         }
       }
-      io.emit('tagInfoObjUpdate', obj1);
-      io.emit('countUpNew', activeCount);
-      io.emit('countDownNew', inactiveCount);
+      io.to(uid).emit('tagInfoObjUpdate', obj1);
+      io.to(uid).emit('countUpNew', activeCount);
+      io.to(uid).emit('countDownNew', inactiveCount);
     }
 
     const fetchDataAndListen = async () => {
@@ -218,7 +218,7 @@ export const setMaxCapacityValueListener = (io, uid) => {
   docRef.onSnapshot((doc) => {
     if (doc.exists) {
       const capacityVal = doc.data();
-      io.emit('updateCapacityValue', capacityVal);
+      io.to(uid).emit('updateCapacityValue', capacityVal);
     } else {
       console.log('No such document!');
     }
