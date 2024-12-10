@@ -205,7 +205,7 @@ export default function DataTable() {
                     <><span className="h-2.5 w-2.5 bg-red-500 inline-block rounded-full mr-2"></span>{item.status}</>
                   )}
                 </Table.Cell>
-                <Table.Cell>{item.date}</Table.Cell>
+                <Table.Cell>{item.dateOfRegistration}</Table.Cell>
                 <Table.Cell className="text-center">{item.dateOfLoading}</Table.Cell>
                 <Table.Cell className="text-center">{item.dateOfUnLoading}</Table.Cell>
                 <Table.Cell className="flex justify-center">
