@@ -37,9 +37,10 @@ export default function Header() {
           <Link to={'/'} className="flex flex-row mr-0 pr-0">
             <img className="h-15 w-20 pt-0" src="/logo1.png"/>
             <div className="flex flex-col">
-              <span className="block text-[14px] font-medium truncate mb-[-5px] mt-[5px]">Warehouse</span>
-              <span className="block text-[14px] font-medium truncate mb-[-5px]">Management</span>
-              <span className="block text-[14px] font-medium truncate">System</span>
+              <span className="block text-[14px] font-medium truncate mb-[-5px] mt-[5px]">Rice</span>
+              <span className="block text-[14px] font-medium truncate mb-[-5px]">Storage</span>
+              <span className="block text-[14px] font-medium truncate">Monitoring System</span>
+              
             </div>
           </Link>
         </div>
