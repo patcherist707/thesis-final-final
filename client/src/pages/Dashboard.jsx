@@ -34,7 +34,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      <div className='md:w-4/12 bg-white shadow '>
+      <div className='w-full lg:w-96 bg-white shadow z-20'>
         <DashSidebar />
       </div>
       {tab === 'profile' && <DashProfile/>}

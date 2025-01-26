@@ -104,7 +104,7 @@ export default function Humidity() {
         maxValue={100} 
       /> */}
       <div className='flex items-center justify-center mt-16'>
-        <span className='text-7xl font-medium text-slate-500'>{data.humidity}%</span>
+        <span className='text-5xl font-medium text-slate-500'>{data.humidity}%</span>
       </div>
     </div>
   );

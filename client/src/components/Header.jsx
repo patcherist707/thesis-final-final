@@ -31,7 +31,7 @@ export default function Header() {
   };
   
   return (
-    <div className="sticky top-0 z-10">
+    <div className="sticky top-0 z-30">
       <Navbar className="border-b-2">
         <div>
           <Link to={'/'} className="flex flex-row mr-0 pr-0">

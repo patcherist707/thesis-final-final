@@ -90,7 +90,7 @@ export default function Temperature() {
         maxValue={40}
       /> */}
       <div className='flex items-center justify-center mt-16'>
-        <span className='text-7xl font-medium text-slate-500'>{data.temperature}ºC</span>
+        <span className='text-5xl font-medium text-slate-500'>{data.temperature}ºC</span>
       </div>
     </div>
   );

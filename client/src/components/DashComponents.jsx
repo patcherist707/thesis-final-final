@@ -23,7 +23,7 @@ export default function DashComponents() {
           <div className="border-b-2 border-gray-300 mb-8">
             <span className="text-4xl text-gray-300 font-bold">Real-Time Stock & Environment Data</span>
           </div>
-          <div className="flex flex-col gap-4 mx-auto w-full xl:flex-row">
+          <div className="flex flex-col gap-4 mx-auto w-full">
             
 
             {/* Temperature, Humidity, TempHumidSummary, StockCountIn, StockCountOut, StocksSummary */}
