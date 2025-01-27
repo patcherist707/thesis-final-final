@@ -17,7 +17,7 @@ import { rfidThresholdAlert } from "./Alerts/rfid.alerts.js";
 
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = 10000;
 const httpServer = createServer(app);
 
 app.use(express.json());
